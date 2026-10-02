@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Site Engineer — Construction Intelligence & Engineering Copilot</title>
+  <meta name="description" content="RAG finds engineering info; deterministic tools perform calculations; the LLM orchestrates. The intelligent copilot for drawings, BOQ, BBS, and site workflows.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       CONCEPT 1: DIGITAL BLUEPRINT & SLOW AMBIENT CAD MOTION
+       ============================================================ */
+    :root {
+      --bg-base: #040711;
+      --bg-surface: rgba(10, 18, 36, 0.72);
+      --bg-surface-elevated: rgba(14, 25, 52, 0.9);
+      --bg-surface-hover: rgba(20, 36, 72, 0.95);
+      --border-color: rgba(56, 189, 248, 0.18);
+      --border-bright: rgba(0, 210, 255, 0.5);
+      --border-focus: #00d2ff;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --accent-primary: #00d2ff;
+      --accent-secondary: #0066ff;
+      --accent-glow: rgba(0, 210, 255, 0.25);
+      --badge-bg: rgba(0, 210, 255, 0.1);
+      --badge-text: #38bdf8;
+      --grid-size: 36px 36px;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --shadow-card: 0 20px 45px -12px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 210, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Ambient CAD Blueprint Background with Slow Drift */
+    .blueprint-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      background-image: 
+        linear-gradient(to right, rgba(56, 189, 248, 0.07) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(56, 189, 248, 0.07) 1px, transparent 1px);
+      background-size: var(--grid-size);
+      opacity: 0.95;
+      animation: blueprintSlowDrift 60s linear infinite;
+    }
+
+    @keyframes blueprintSlowDrift {
+      0% {
+        background-position: 0 0;
+      }
+      100% {
+        background-position: 72px 72px;
+      }
+    }
+
+    .blueprint-bg::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 50% 15%, transparent 20%, var(--bg-base) 85%);
+    }
+
+    /* Ambient Radial Aura with Slow Breathing Pulse */
+    .ambient-radial-glow {
+      position: fixed;
+      width: 950px;
+      height: 950px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 210, 255, 0.32) 0%, rgba(0, 102, 255, 0.12) 60%, transparent 80%);
+      filter: blur(180px);
+      pointer-events: none;
+      z-index: 0;
+      top: -240px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: slowGlowBreathe 18s ease-in-out infinite alternate;
+    }
+
+    @keyframes slowGlowBreathe {
+      0% {
+        transform: translateX(-50%) translateY(0) scale(1);
+        opacity: 0.75;
+      }
+      50% {
+        transform: translateX(-48%) translateY(35px) scale(1.12);
+        opacity: 0.95;
+      }
+      100% {
+        transform: translateX(-52%) translateY(15px) scale(1.05);
+        opacity: 0.8;
+      }
+    }
+
+    /* Slow Technical Sweep Line */
+    .cad-scanline {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(0, 210, 255, 0.45) 50%, transparent 100%);
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
+      pointer-events: none;
+      z-index: 1;
+      animation: slowScanSweep 20s ease-in-out infinite;
+    }
+
+    @keyframes slowScanSweep {
+      0% {
+        top: -2%;
+        opacity: 0;
+      }
+      15% {
+        opacity: 0.7;
+      }
+      85% {
+        opacity: 0.7;
+      }
+      100% {
+        top: 102%;
+        opacity: 0;
+      }
+    }
+
+    /* Subtle Column Drafting Vector Graphics Overlay */
+    .cad-drafting-decorations {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .drafting-schematic-left {
+      position: absolute;
+      top: 100px;
+      left: 3%;
+      width: 320px;
+      opacity: 0.35;
+      animation: draftingSubtleFloat 24s ease-in-out infinite alternate;
+    }
+
+    .drafting-schematic-right {
+      position: absolute;
+      top: 140px;
+      right: 3%;
+      width: 340px;
+      opacity: 0.38;
+      animation: draftingSubtleFloat 24s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes draftingSubtleFloat {
+      0% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      100% {
+        transform: translateY(18px) rotate(0.5deg);
+      }
+    }
+
+    /* Decorative CAD Coordinate Markers */
+    .cad-hud-marker {
+      position: fixed;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: rgba(56, 189, 248, 0.3);
+      letter-spacing: 0.08em;
+      pointer-events: none;
+      z-index: 2;
+      text-transform: uppercase;
+    }
+    .hud-top-left { top: 16px; left: 24px; }
+    .hud-top-right { top: 16px; right: 24px; }
+    .hud-bot-left { bottom: 16px; left: 24px; }
+    .hud-bot-right { bottom: 16px; right: 24px; }
+
+    /* Layout Container */
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Header Navigation */
+    header.site-header {
+      padding: 24px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(56, 189, 248, 0.12);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #00d2ff, #0066ff);
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: #000;
+      font-weight: 900;
+      font-size: 1.15rem;
+      box-shadow: 0 0 20px rgba(0, 210, 255, 0.45);
+    }
+
+    .brand-text h2 {
+      font-size: 1.18rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-text span {
+      font-size: 0.72rem;
+      font-family: var(--font-mono);
+      color: var(--accent-primary);
+      display: block;
+      line-height: 1;
+    }
+
+    .btn-features {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      font-weight: 600;
+      padding: 9px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.88rem;
+      border: 1px solid var(--border-color);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s ease;
+    }
+
+    .btn-features:hover {
+      background: var(--bg-surface-hover);
+      border-color: var(--border-bright);
+      color: var(--accent-primary);
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+    }
+
+    /* 1. Hero Section ("What It's All About") */
+    .hero {
+      padding: 90px 0 60px;
+      text-align: center;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      background: #00d2ff;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #00d2ff;
+      animation: pulse 2.5s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.8); }
+    }
+
+    .hero h1 {
+      font-size: 3.6rem;
+      line-height: 1.12;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 span.gradient-text {
+      background: linear-gradient(135deg, #00d2ff 0%, #38bdf8 50%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-lead {
+      font-size: 1.22rem;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+      line-height: 1.65;
+    }
+
+    .hero-principle-banner {
+      background: rgba(0, 210, 255, 0.05);
+      border: 1px solid rgba(0, 210, 255, 0.25);
+      border-radius: 12px;
+      padding: 14px 22px;
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      margin-bottom: 36px;
+      display: inline-block;
+    }
+
+    .hero-principle-banner strong {
+      color: var(--accent-primary);
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 54px;
+    }
+
+    .btn-cta {
+      background: linear-gradient(135deg, #00d2ff, #0077ff);
+      color: #040711;
+      font-weight: 700;
+      padding: 12px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 20px rgba(0, 210, 255, 0.35);
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(0, 210, 255, 0.5);
+    }
+
+    /* Trust Metric Bar */
+    .trust-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      padding: 24px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      margin-bottom: 90px;
+    }
+
+    .trust-item {
+      text-align: center;
+      padding: 8px 12px;
+    }
+
+    .trust-item:not(:last-child) {
+      border-right: 1px solid rgba(56, 189, 248, 0.15);
+    }
+
+    .trust-item .val {
+      font-family: var(--font-mono);
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--accent-primary);
+    }
+
+    .trust-item .lbl {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* 3. Features Section ("About Its Features") */
+    .section {
+      padding: 20px 0 90px;
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 54px;
+    }
+
+    .section-badge {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+      display: inline-block;
+      background: var(--badge-bg);
+      padding: 4px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 210, 255, 0.25);
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    /* Features Grid (The 7 Pillars from Blueprint) */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 30px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-bright);
+      box-shadow: 0 16px 35px -10px var(--accent-glow);
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+
+    .feature-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .feature-number {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--accent-primary);
+      background: var(--badge-bg);
+      padding: 3px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    .feature-icon-badge {
+      width: 44px;
+      height: 44px;
+      background: rgba(0, 210, 255, 0.08);
+      border: 1px solid rgba(0, 210, 255, 0.2);
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 1.4rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 0.94rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .feature-meta-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(56, 189, 248, 0.12);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      color: #94a3b8;
+    }
+
+    .feature-meta-box strong {
+      color: var(--accent-primary);
+    }
+
+    /* Minimalist Footer */
+    footer {
+      border-top: 1px solid rgba(56, 189, 248, 0.14);
+      padding: 36px 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+
+    @media (max-width: 900px) {
+      .hero h1 { font-size: 2.6rem; }
+      .trust-bar { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CAD Blueprint Background with Slow Drift Motion -->
+  <div class="blueprint-bg"></div>
+  <div class="ambient-radial-glow"></div>
+  <div class="cad-scanline"></div>
+
+  <!-- CAD Column Drafting Vector Schematics -->
+  <div class="cad-drafting-decorations" aria-hidden="true">
+    <!-- Left Column Elevation Detail Schematic -->
+    <svg class="drafting-schematic-left" viewBox="0 0 320 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Grid line with bubble -->
+      <line x1="60" y1="20" x2="60" y2="460" stroke="#00d2ff" stroke-width="1" stroke-dasharray="8 4 2 4" stroke-opacity="0.4"/>
+      <circle cx="60" cy="30" r="16" stroke="#00d2ff" stroke-width="1.2" stroke-opacity="0.6" fill="rgba(4,7,17,0.8)"/>
+      <text x="60" y="35" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" fill="#00d2ff" font-weight="700">A</text>
+
+      <!-- Concrete Column Outline -->
+      <rect x="90" y="80" width="130" height="340" stroke="#38bdf8" stroke-width="1.8" stroke-opacity="0.5" fill="none"/>
+      
+      <!-- Longitudinal Rebar (Main Bars) -->
+      <line x1="105" y1="60" x2="105" y2="440" stroke="#00d2ff" stroke-width="2" stroke-opacity="0.75"/>
+      <line x1="125" y1="70" x2="125" y2="430" stroke="#00d2ff" stroke-width="1.5" stroke-opacity="0.6"/>
+      <line x1="185" y1="70" x2="185" y2="430" stroke="#00d2ff" stroke-width="1.5" stroke-opacity="0.6"/>
+      <line x1="205" y1="60" x2="205" y2="440" stroke="#00d2ff" stroke-width="2" stroke-opacity="0.75"/>
+
+      <!-- Lap Splice Crank at Top -->
+      <path d="M 105 100 L 109 85 L 109 50" stroke="#00d2ff" stroke-width="1.8" stroke-opacity="0.8" fill="none"/>
+      <path d="M 205 100 L 201 85 L 201 50" stroke="#00d2ff" stroke-width="1.8" stroke-opacity="0.8" fill="none"/>
+
+      <!-- Stirrup Ties (T8 @ 150 c/c) -->
+      <line x1="95" y1="110" x2="215" y2="110" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
+      <line x1="95" y1="140" x2="215" y2="140" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
+      <line x1="95" y1="170" x2="215" y2="170" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
+      <line x1="95" y1="200" x2="215" y2="200" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
+      <line x1="95" y1="230" x2="215" y2="230" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
+      <line x1="95" y1="260" x2="215" y2="260" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
+      <line x1="95" y1="290" x2="215" y2="290" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
+      <line x1="95" y1="320" x2="215" y2="320" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
+      <line x1="95" y1="350" x2="215" y2="350" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
+      <line x1="95" y1="380" x2="215" y2="380" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
+
+      <!-- Dimension Line for Clear Height -->
+      <line x1="240" y1="80" x2="240" y2="420" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.4"/>
+      <line x1="235" y1="80" x2="245" y2="80" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.4"/>
+      <line x1="235" y1="420" x2="245" y2="420" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.4"/>
+      <text x="252" y="255" font-family="'JetBrains Mono', monospace" font-size="10" fill="#38bdf8" transform="rotate(90 252 255)" font-weight="600">3600 mm</text>
+
+      <!-- Datum Marker Level -->
+      <path d="M 40 80 L 52 80 M 46 80 L 46 68 M 46 68 L 52 74" stroke="#00d2ff" stroke-width="1.2" stroke-opacity="0.6" fill="none"/>
+      <text x="10" y="75" font-family="'JetBrains Mono', monospace" font-size="9" fill="#00d2ff" opacity="0.7">▽ EL +14.250</text>
+
+      <!-- Annotation Callout -->
+      <line x1="105" y1="200" x2="40" y2="220" stroke="#00d2ff" stroke-width="0.8" stroke-opacity="0.6"/>
+      <text x="10" y="235" font-family="'JetBrains Mono', monospace" font-size="9" fill="#00d2ff" opacity="0.8">T8@150 c/c</text>
+      <text x="90" y="445" font-family="'JetBrains Mono', monospace" font-size="10" fill="#38bdf8" opacity="0.75" font-weight="600">COL C-12 (ELEVATION)</text>
+    </svg>
+
+    <!-- Right Column Section & Reinforcement Schedule Plan -->
+    <svg class="drafting-schematic-right" viewBox="0 0 340 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Grid Crosshairs (Grid 3 & B) -->
+      <line x1="40" y1="160" x2="300" y2="160" stroke="#00d2ff" stroke-width="1" stroke-dasharray="8 4 2 4" stroke-opacity="0.4"/>
+      <line x1="160" y1="30" x2="160" y2="310" stroke="#00d2ff" stroke-width="1" stroke-dasharray="8 4 2 4" stroke-opacity="0.4"/>
+      
+      <!-- Grid Bubbles -->
+      <circle cx="310" cy="160" r="14" stroke="#00d2ff" stroke-width="1.2" stroke-opacity="0.6" fill="rgba(4,7,17,0.8)"/>
+      <text x="310" y="164" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#00d2ff" font-weight="700">3</text>
+      
+      <circle cx="160" cy="20" r="14" stroke="#00d2ff" stroke-width="1.2" stroke-opacity="0.6" fill="rgba(4,7,17,0.8)"/>
+      <text x="160" y="24" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#00d2ff" font-weight="700">B</text>
+
+      <!-- Outer Column Concrete Boundary (450 x 600 mm) -->
+      <rect x="75" y="70" width="170" height="210" rx="3" stroke="#38bdf8" stroke-width="2" stroke-opacity="0.6" fill="rgba(10,18,36,0.5)"/>
+
+      <!-- Inner Stirrup Rectangle with 40mm Cover -->
+      <rect x="90" y="85" width="140" height="180" rx="6" stroke="#00d2ff" stroke-width="1.5" stroke-opacity="0.75" fill="none"/>
+      
+      <!-- Stirrup 135 Hook Bends in Top-Left Corner -->
+      <path d="M 90 95 L 105 110 M 90 100 L 110 115" stroke="#00d2ff" stroke-width="1.5" stroke-opacity="0.8"/>
+
+      <!-- 8 Longitudinal Rebar Steel Bars (Circles) -->
+      <!-- Top Row (3 bars) -->
+      <circle cx="98" cy="93" r="5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1.2"/>
+      <circle cx="160" cy="93" r="5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1.2"/>
+      <circle cx="222" cy="93" r="5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1.2"/>
+      <!-- Middle Row (2 bars) -->
+      <circle cx="98" cy="175" r="5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1.2"/>
+      <circle cx="222" cy="175" r="5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1.2"/>
+      <!-- Bottom Row (3 bars) -->
+      <circle cx="98" cy="257" r="5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1.2"/>
+      <circle cx="160" cy="257" r="5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1.2"/>
+      <circle cx="222" cy="257" r="5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1.2"/>
+
+      <!-- Dimension Lines -->
+      <!-- Width Dimension (450 mm) -->
+      <line x1="75" y1="52" x2="245" y2="52" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.45"/>
+      <line x1="75" y1="48" x2="75" y2="56" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.45"/>
+      <line x1="245" y1="48" x2="245" y2="56" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.45"/>
+      <text x="160" y="46" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#00d2ff" font-weight="600">450 mm</text>
+
+      <!-- Depth Dimension (600 mm) -->
+      <line x1="56" y1="70" x2="56" y2="280" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.45"/>
+      <line x1="52" y1="70" x2="60" y2="70" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.45"/>
+      <line x1="52" y1="280" x2="60" y2="280" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.45"/>
+      <text x="44" y="180" font-family="'JetBrains Mono', monospace" font-size="10" fill="#00d2ff" transform="rotate(-90 44 180)" font-weight="600">600 mm</text>
+
+      <!-- Callout Line to Rebar -->
+      <polyline points="222,93 260,70 300,70" stroke="#00d2ff" stroke-width="0.9" stroke-opacity="0.6"/>
+      <text x="260" y="62" font-family="'JetBrains Mono', monospace" font-size="9" fill="#00d2ff" font-weight="600">8-T20 Fe500</text>
+
+      <!-- Title at bottom -->
+      <text x="160" y="325" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10.5" fill="#38bdf8" font-weight="700" letter-spacing="0.05em">DETAIL A • SECTION 1-1 (1:20)</text>
+    </svg>
+  </div>
+  <div class="cad-hud-marker hud-top-left">[SYS: AI SITE ENGINEER V1]</div>
+  <div class="cad-hud-marker hud-top-right">[AEC DOMAIN INTELLIGENCE]</div>
+  <div class="cad-hud-marker hud-bot-left">[DETERMINISTIC VERIFICATION]</div>
+  <div class="cad-hud-marker hud-bot-right">[IS / ACI COMPLIANT]</div>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="site-header">
+      <a href="#" class="brand">
+        <div class="brand-icon">Δ</div>
+        <div class="brand-text">
+          <h2>AI Site Engineer</h2>
+          <span>CONSTRUCTION INTELLIGENCE</span>
+        </div>
+      </a>
+      <a href="#features" class="btn-features">Explore 7 Capabilities ↓</a>
+    </header>
+
+    <!-- 1. Hero Section ("What It's All About") -->
+    <section class="hero">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        <span>RAG-Powered Construction Intelligence Assistant</span>
+      </div>
+
+      <h1>
+        Zero-Hallucination AI for <span class="gradient-text">Site Engineers & Contractors</span>.
+      </h1>
+
+      <p class="hero-lead">
+        Stop digging through hundreds of revision drawings and fragmented spreadsheets. 
+        AI Site Engineer unifies your structural drawings, BOQs, and BBS schedules into an intelligent, auditable copilot.
+      </p>
+
+      <div class="hero-principle-banner">
+        ⚙️ <strong>Core Architectural Principle:</strong> RAG finds engineering information; deterministic tools perform calculations; the LLM orchestrates and explains.
+      </div>
+
+      <div class="hero-actions">
+        <a href="#features" class="btn-cta">Explore The 7 Core Features ↓</a>
+      </div>
+    </section>
+
+    <!-- Trust Metric Bar -->
+    <div class="trust-bar">
+      <div class="trust-item">
+        <div class="val">100%</div>
+        <div class="lbl">Deterministic Python Math</div>
+      </div>
+      <div class="trust-item">
+        <div class="val">Sheet & Rev</div>
+        <div class="lbl">Traceable Drawing Citations</div>
+      </div>
+      <div class="trust-item">
+        <div class="val">BOQ ↔ BBS</div>
+        <div class="lbl">Automated Variance Auditing</div>
+      </div>
+      <div class="trust-item">
+        <div class="val">Zero Guesswork</div>
+        <div class="lbl">IS & ACI Code Compliant</div>
+      </div>
+    </div>
+
+    <!-- 3. Features Section ("About Its Features") -->
+    <section class="section" id="features">
+      <div class="section-header">
+        <span class="section-badge">Platform Capabilities</span>
+        <h2 class="section-title">The Seven Real-World Features</h2>
+        <p class="section-desc">
+          Designed strictly around the daily pain points of site engineers, quantity surveyors, and project managers.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <!-- Feature 1 -->
+        <div class="feature-card">
+          <div>
+            <div class="feature-top">
+              <span class="feature-number">FEATURE 01</span>
+              <div class="feature-icon-badge">📑</div>
+            </div>
+            <h3>Project Document Q&A</h3>
+            <p>
+              Instantly interrogate complex structural drawings, architectural plans, tender BOQs, bar bending schedules (BBS), and daily logs. Delivers concise answers backed by clickable drawing citations.
+            </p>
+          </div>
+          <div class="feature-meta-box">
+            <strong>Evidence Grounding:</strong> Vector + BM25 Lexical + Reciprocal Rank Fusion (RRF).
+          </div>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feature-card">
+          <div>
+            <div class="feature-top">
+              <span class="feature-number">FEATURE 02</span>
+              <div class="feature-icon-badge">🧮</div>
+            </div>
+            <h3>Deterministic Quantity Engine</h3>
+            <p>
+              Automates construction quantity takeoffs: rebar weight (IS 1786), wet/dry concrete mix volumes, shuttering contact area, earthwork excavation, and brickwork count using pure code formulas.
+            </p>
+          </div>
+          <div class="feature-meta-box">
+            <strong>Safety Rule:</strong> Pure Python arithmetic modules with full unit & range validation.
+          </div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feature-card">
+          <div>
+            <div class="feature-top">
+              <span class="feature-number">FEATURE 03</span>
+              <div class="feature-icon-badge">⚖️</div>
+            </div>
+            <h3>BOQ ↔ Drawing Cross-Check</h3>
+            <p>
+              Cross-references tender BOQ bill items against quantities extracted directly from approved drawings. Identifies budget under-measurements and flags variances without ungrounded error accusations.
+            </p>
+          </div>
+          <div class="feature-meta-box">
+            <strong>Output:</strong> Exact delta in absolute and percentage terms (+14.8% variance alerts).
+          </div>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="feature-card">
+          <div>
+            <div class="feature-top">
+              <span class="feature-number">FEATURE 04</span>
+              <div class="feature-icon-badge">🔍</div>
+            </div>
+            <h3>Element & Schedule Lookup</h3>
+            <p>
+              Single-query lookup for any structural element (e.g. Column C-12, Footing F-4, Beam B-104). Instantly pulls dimensions, schedule tables, bar diameters, cover, and stirrup spacing into one consolidated view.
+            </p>
+          </div>
+          <div class="feature-meta-box">
+            <strong>Speed:</strong> Replaces 20-minute manual drawing searches with instant 2-second lookups.
+          </div>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="feature-card">
+          <div>
+            <div class="feature-top">
+              <span class="feature-number">FEATURE 05</span>
+              <div class="feature-icon-badge">⚠️</div>
+            </div>
+            <h3>Revision & Conflict Intelligence</h3>
+            <p>
+              Detects conflicting specifications across project documents (e.g. Structural drawing specifies T8 @ 150mm ties while the BBS specifies T8 @ 200mm). Prevents costly on-site bar bending mistakes.
+            </p>
+          </div>
+          <div class="feature-meta-box">
+            <strong>Resolution:</strong> Flags clash evidence and prompts verification rather than guessing.
+          </div>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="feature-card">
+          <div>
+            <div class="feature-top">
+              <span class="feature-number">FEATURE 06</span>
+              <div class="feature-icon-badge">📋</div>
+            </div>
+            <h3>DPR & Site Progress Assistant</h3>
+            <p>
+              Converts raw voice notes, WhatsApp text messages, and concrete plant delivery tickets into structured Daily Progress Reports. Tracks daily pour volumes, manpower headcount, and delay causes.
+            </p>
+          </div>
+          <div class="feature-meta-box">
+            <strong>Workflow:</strong> Generates auditable daily logs and automated weekly contractor summaries.
+          </div>
+        </div>
+
+        <!-- Feature 7 -->
+        <div class="feature-card">
+          <div>
+            <div class="feature-top">
+              <span class="feature-number">FEATURE 07</span>
+              <div class="feature-icon-badge">🛡️</div>
+            </div>
+            <h3>Site Issue & RFI Assistant</h3>
+            <p>
+              When a site clash or discrepancy is discovered (such as MEP ducts colliding with structural downstand beams), the system automatically drafts a formal, traceable Request for Information (RFI).
+            </p>
+          </div>
+          <div class="feature-meta-box">
+            <strong>Integrity:</strong> Compiles coordinates and drawing snapshots for consultant review.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Minimal Footer -->
+    <footer>
+      <p class="footer-copy">
+        AI Site Engineer • Built for Civil & Structural Teams • IS 1786 / IS 456 / ACI Standards
+      </p>
+    </footer>
+  </div>
+
+</body>
+</html>
