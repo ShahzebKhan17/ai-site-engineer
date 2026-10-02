@@ -152,7 +152,7 @@
       }
     }
 
-    /* Subtle Column Drafting Vector Graphics Overlay */
+    /* CAD Drafting Vector Graphics & Construction Background */
     .cad-drafting-decorations {
       position: absolute;
       top: 0;
@@ -164,22 +164,71 @@
       overflow: hidden;
     }
 
-    .drafting-schematic-left {
+    /* 1. Background High-Rise Skyscraper & Tower Crane System */
+    .drafting-skyline-crane {
       position: absolute;
-      top: 100px;
-      left: 3%;
-      width: 320px;
-      opacity: 0.35;
-      animation: draftingSubtleFloat 24s ease-in-out infinite alternate;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 1540px;
+      height: 820px;
+      opacity: 0.46;
+      pointer-events: none;
+      z-index: 1;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.88) 65%, transparent 98%);
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.88) 65%, transparent 98%);
     }
 
+    /* Crane Strobe & Motion Keyframes */
+    .crane-strobe {
+      animation: craneStrobe 1.6s infinite ease-in-out;
+      transform-origin: center;
+    }
+    @keyframes craneStrobe {
+      0%, 46%, 54%, 100% { opacity: 0.2; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.3); filter: drop-shadow(0 0 8px #ef4444); }
+    }
+    .crane-strobe-ring {
+      animation: craneStrobeRing 1.6s infinite ease-out;
+      transform-origin: center;
+    }
+    @keyframes craneStrobeRing {
+      0%, 48% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 0.9; transform: scale(1); }
+      75% { opacity: 0; transform: scale(1.8); }
+      100% { opacity: 0; }
+    }
+    .hoist-assembly {
+      animation: hoistSway 12s ease-in-out infinite alternate;
+      transform-origin: 671px 40px;
+    }
+    @keyframes hoistSway {
+      0% { transform: rotate(0deg); }
+      50% { transform: rotate(0.6deg); }
+      100% { transform: rotate(-0.5deg); }
+    }
+
+    /* 2. Left Column Elevation Detail Schematic */
+    .drafting-schematic-left {
+      position: absolute;
+      top: 75px;
+      left: 1.2%;
+      width: 260px;
+      opacity: 0.38;
+      animation: draftingSubtleFloat 24s ease-in-out infinite alternate;
+      z-index: 2;
+    }
+
+    /* 3. Right Column Section & Beam Detailing */
     .drafting-schematic-right {
       position: absolute;
-      top: 140px;
-      right: 3%;
-      width: 340px;
-      opacity: 0.38;
+      top: 75px;
+      right: 1.2%;
+      width: 330px;
+      opacity: 0.42;
       animation: draftingSubtleFloat 24s ease-in-out infinite alternate-reverse;
+      z-index: 2;
     }
 
     @keyframes draftingSubtleFloat {
@@ -187,8 +236,32 @@
         transform: translateY(0px) rotate(0deg);
       }
       100% {
-        transform: translateY(18px) rotate(0.5deg);
+        transform: translateY(14px) rotate(0.3deg);
       }
+    }
+
+    /* 4. Site Engineer with Helmet & Hi-Vis Safety Jacket */
+    .drafting-engineer {
+      position: absolute;
+      top: 410px;
+      left: 1.2%;
+      width: 330px;
+      opacity: 0.88;
+      z-index: 3;
+      animation: engineerBreathe 10s ease-in-out infinite alternate;
+      filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.8));
+    }
+    @keyframes engineerBreathe {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(8px); }
+    }
+    .sightline-pulse {
+      animation: sightPulse 3s linear infinite;
+    }
+    @keyframes sightPulse {
+      0% { stroke-dashoffset: 0; opacity: 0.4; }
+      50% { stroke-dashoffset: -20; opacity: 0.9; }
+      100% { stroke-dashoffset: -40; opacity: 0.4; }
     }
 
     /* Decorative CAD Coordinate Markers */
@@ -571,9 +644,25 @@
       color: var(--text-dim);
     }
 
+    @media (max-width: 1400px) {
+      .drafting-schematic-left { width: 250px; opacity: 0.35; left: 0.5%; }
+      .drafting-schematic-right { width: 290px; opacity: 0.35; right: 0.5%; }
+      .drafting-engineer { width: 280px; opacity: 0.65; left: 1%; top: 520px; }
+      .drafting-skyline-crane { opacity: 0.36; }
+    }
+
+    @media (max-width: 1100px) {
+      .drafting-schematic-left, .drafting-schematic-right { opacity: 0.22; }
+      .drafting-engineer { opacity: 0.45; width: 250px; top: 560px; }
+      .drafting-skyline-crane { opacity: 0.28; }
+    }
+
     @media (max-width: 900px) {
       .hero h1 { font-size: 2.6rem; }
       .trust-bar { grid-template-columns: 1fr 1fr; }
+      .drafting-schematic-left, .drafting-schematic-right { display: none; }
+      .drafting-engineer { opacity: 0.32; width: 220px; left: 3%; top: 610px; }
+      .drafting-skyline-crane { opacity: 0.22; }
     }
   </style>
 </head>
@@ -584,111 +673,546 @@
   <div class="ambient-radial-glow"></div>
   <div class="cad-scanline"></div>
 
-  <!-- CAD Column Drafting Vector Schematics -->
+  <!-- CAD Construction Drafting Vector Schematics & Background Engineering Art -->
   <div class="cad-drafting-decorations" aria-hidden="true">
-    <!-- Left Column Elevation Detail Schematic -->
-    <svg class="drafting-schematic-left" viewBox="0 0 320 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+    
+    <!-- 1. Background High-Rise Skyscraper Architecture & Climbing Tower Crane System -->
+    <svg class="drafting-skyline-crane" viewBox="0 0 1400 780" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="cyan-glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+        <linearGradient id="crane-light-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.8"/>
+          <stop offset="100%" stop-color="#00d2ff" stop-opacity="0.1"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Background Horizon CAD Grid -->
+      <line x1="80" y1="720" x2="1320" y2="720" stroke="#00d2ff" stroke-width="1.5" stroke-opacity="0.4" stroke-dasharray="12 6"/>
+      <text x="90" y="738" font-family="'JetBrains Mono', monospace" font-size="11" fill="#38bdf8" opacity="0.6">BASE DATUM EL ±0.000 // FINISHED GROUND LEVEL</text>
+      <text x="1060" y="738" font-family="'JetBrains Mono', monospace" font-size="10" fill="#38bdf8" opacity="0.5">COORD: N 2,891,420.50 E 512,890.30</text>
+
+      <!-- Distant Background Towers & Structure Outlines -->
+      <!-- Tower 2 (Horizon Left) -->
+      <g opacity="0.45">
+        <rect x="240" y="320" width="110" height="400" stroke="#38bdf8" stroke-width="1" stroke-dasharray="4 4" fill="rgba(10,18,36,0.3)"/>
+        <line x1="240" y1="380" x2="350" y2="380" stroke="#38bdf8" stroke-width="0.8"/>
+        <line x1="240" y1="440" x2="350" y2="440" stroke="#38bdf8" stroke-width="0.8"/>
+        <line x1="240" y1="500" x2="350" y2="500" stroke="#38bdf8" stroke-width="0.8"/>
+        <line x1="240" y1="560" x2="350" y2="560" stroke="#38bdf8" stroke-width="0.8"/>
+        <line x1="240" y1="620" x2="350" y2="620" stroke="#38bdf8" stroke-width="0.8"/>
+        <line x1="240" y1="680" x2="350" y2="680" stroke="#38bdf8" stroke-width="0.8"/>
+        <!-- Diagonals on Tower 2 -->
+        <line x1="240" y1="320" x2="350" y2="380" stroke="#00d2ff" stroke-width="0.7" stroke-opacity="0.5"/>
+        <line x1="350" y1="320" x2="240" y2="380" stroke="#00d2ff" stroke-width="0.7" stroke-opacity="0.5"/>
+        <line x1="240" y1="380" x2="350" y2="440" stroke="#00d2ff" stroke-width="0.7" stroke-opacity="0.5"/>
+        <line x1="350" y1="380" x2="240" y2="440" stroke="#00d2ff" stroke-width="0.7" stroke-opacity="0.5"/>
+        <!-- Distant Crane 2 on Tower 2 -->
+        <line x1="290" y1="210" x2="290" y2="320" stroke="#00d2ff" stroke-width="1.4"/>
+        <line x1="240" y1="230" x2="360" y2="230" stroke="#00d2ff" stroke-width="1.2"/>
+        <line x1="290" y1="210" x2="330" y2="230" stroke="#00d2ff" stroke-width="0.9"/>
+        <line x1="290" y1="210" x2="260" y2="230" stroke="#00d2ff" stroke-width="0.9"/>
+        <circle cx="290" cy="208" r="2.5" fill="#ef4444" class="crane-strobe"/>
+      </g>
+
+      <!-- Distant Background Mid-Rise (Right) -->
+      <g opacity="0.38">
+        <rect x="1060" y="420" width="130" height="300" stroke="#38bdf8" stroke-width="1" stroke-dasharray="6 3" fill="none"/>
+        <line x1="1060" y1="480" x2="1190" y2="480" stroke="#38bdf8" stroke-width="0.7"/>
+        <line x1="1060" y1="540" x2="1190" y2="540" stroke="#38bdf8" stroke-width="0.7"/>
+        <line x1="1060" y1="600" x2="1190" y2="600" stroke="#38bdf8" stroke-width="0.7"/>
+        <line x1="1060" y1="660" x2="1190" y2="660" stroke="#38bdf8" stroke-width="0.7"/>
+        <!-- Distant Crane 3 -->
+        <line x1="1130" y1="350" x2="1130" y2="420" stroke="#38bdf8" stroke-width="1.2"/>
+        <line x1="1090" y1="365" x2="1170" y2="365" stroke="#38bdf8" stroke-width="1"/>
+        <circle cx="1130" cy="348" r="2" fill="#ef4444" class="crane-strobe"/>
+      </g>
+
+      <!-- MAIN SKYSCRAPER UNDER CONSTRUCTION -->
+      <g id="main-skyscraper" class="skyscraper-group">
+        <!-- Grid Axis Lines Running Through Skyscraper -->
+        <line x1="680" y1="40" x2="680" y2="720" stroke="#00d2ff" stroke-width="1" stroke-dasharray="10 5 2 5" stroke-opacity="0.35"/>
+        <line x1="840" y1="40" x2="840" y2="720" stroke="#00d2ff" stroke-width="1" stroke-dasharray="10 5 2 5" stroke-opacity="0.35"/>
+        <line x1="1000" y1="40" x2="1000" y2="720" stroke="#00d2ff" stroke-width="1" stroke-dasharray="10 5 2 5" stroke-opacity="0.35"/>
+
+        <!-- Grid Bubbles Top -->
+        <circle cx="680" cy="30" r="13" stroke="#00d2ff" stroke-width="1.2" stroke-opacity="0.6" fill="rgba(4,7,17,0.85)"/>
+        <text x="680" y="34" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#00d2ff" font-weight="700">G4</text>
+        <circle cx="840" cy="30" r="13" stroke="#00d2ff" stroke-width="1.2" stroke-opacity="0.6" fill="rgba(4,7,17,0.85)"/>
+        <text x="840" y="34" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#00d2ff" font-weight="700">G5</text>
+        <circle cx="1000" cy="30" r="13" stroke="#00d2ff" stroke-width="1.2" stroke-opacity="0.6" fill="rgba(4,7,17,0.85)"/>
+        <text x="1000" y="34" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#00d2ff" font-weight="700">G6</text>
+
+        <!-- Skyscraper Concrete Shear Core (Elevator & Service Shaft) -->
+        <rect x="790" y="90" width="100" height="630" stroke="#00d2ff" stroke-width="1.6" stroke-opacity="0.6" stroke-dasharray="6 3" fill="rgba(2,132,199,0.06)"/>
+        <line x1="840" y1="90" x2="840" y2="720" stroke="#00d2ff" stroke-width="1" stroke-opacity="0.4"/>
+        <text x="840" y="115" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#00d2ff" opacity="0.8" font-weight="600">RC SHEAR CORE</text>
+
+        <!-- Lower Tier Body (Podium & L01-L24): width 340 -->
+        <rect x="670" y="440" width="340" height="280" stroke="#38bdf8" stroke-width="1.8" stroke-opacity="0.6" fill="rgba(6,14,32,0.4)"/>
+        
+        <!-- Mid Tier Setback (L25-L42): width 280 -->
+        <rect x="700" y="240" width="280" height="200" stroke="#38bdf8" stroke-width="1.8" stroke-opacity="0.65" fill="rgba(6,14,32,0.4)"/>
+
+        <!-- High Tier Setback (L43-L54): width 220 -->
+        <rect x="730" y="100" width="220" height="140" stroke="#38bdf8" stroke-width="2" stroke-opacity="0.75" fill="rgba(6,14,32,0.4)"/>
+
+        <!-- Top Crown Steel Framing Truss (L55-Roof Crown) -->
+        <polygon points="750,100 770,55 910,55 930,100" stroke="#00d2ff" stroke-width="1.8" stroke-opacity="0.8" fill="rgba(0,210,255,0.08)"/>
+        <line x1="770" y1="55" x2="910" y2="55" stroke="#00d2ff" stroke-width="1.5" stroke-opacity="0.8"/>
+        <line x1="840" y1="55" x2="840" y2="100" stroke="#00d2ff" stroke-width="1.5" stroke-opacity="0.7"/>
+        <line x1="770" y1="55" x2="840" y2="100" stroke="#00d2ff" stroke-width="1.2" stroke-opacity="0.6"/>
+        <line x1="910" y1="55" x2="840" y2="100" stroke="#00d2ff" stroke-width="1.2" stroke-opacity="0.6"/>
+        
+        <!-- Rooftop Architectural Spire / Lightning Finial -->
+        <line x1="840" y1="55" x2="840" y2="20" stroke="#00d2ff" stroke-width="2.2" stroke-opacity="0.9" filter="url(#cyan-glow)"/>
+        <circle cx="840" cy="18" r="3.5" fill="#ef4444" class="crane-strobe"/>
+
+        <!-- High-Rise Floor Slabs (Every 20px) -->
+        <!-- High Tier Slabs -->
+        <line x1="730" y1="120" x2="950" y2="120" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+        <line x1="730" y1="140" x2="950" y2="140" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+        <line x1="730" y1="160" x2="950" y2="160" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+        <line x1="730" y1="180" x2="950" y2="180" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+        <line x1="730" y1="200" x2="950" y2="200" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+        <line x1="730" y1="220" x2="950" y2="220" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+
+        <!-- Mid Tier Slabs -->
+        <line x1="700" y1="260" x2="980" y2="260" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+        <line x1="700" y1="285" x2="980" y2="285" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+        <line x1="700" y1="310" x2="980" y2="310" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+        <line x1="700" y1="335" x2="980" y2="335" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+        <line x1="700" y1="360" x2="980" y2="360" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+        <line x1="700" y1="385" x2="980" y2="385" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+        <line x1="700" y1="410" x2="980" y2="410" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+
+        <!-- Lower Tier Slabs -->
+        <line x1="670" y1="470" x2="1010" y2="470" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+        <line x1="670" y1="500" x2="1010" y2="500" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+        <line x1="670" y1="530" x2="1010" y2="530" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+        <line x1="670" y1="560" x2="1010" y2="560" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+        <line x1="670" y1="590" x2="1010" y2="590" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+        <line x1="670" y1="620" x2="1010" y2="620" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+        <line x1="670" y1="650" x2="1010" y2="650" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+        <line x1="670" y1="680" x2="1010" y2="680" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.45"/>
+
+        <!-- Structural Diagrid Mega-X-Braces (Cyan Energy Wireframe) -->
+        <g stroke="#00d2ff" stroke-width="1.3" stroke-opacity="0.5">
+          <!-- High Tier -->
+          <line x1="730" y1="100" x2="790" y2="160"/><line x1="790" y1="100" x2="730" y2="160"/>
+          <line x1="890" y1="100" x2="950" y2="160"/><line x1="950" y1="100" x2="890" y2="160"/>
+          <line x1="730" y1="160" x2="790" y2="240"/><line x1="790" y1="160" x2="730" y2="240"/>
+          <line x1="890" y1="160" x2="950" y2="240"/><line x1="950" y1="160" x2="890" y2="240"/>
+          <!-- Mid Tier -->
+          <line x1="700" y1="240" x2="790" y2="340"/><line x1="790" y1="240" x2="700" y2="340"/>
+          <line x1="890" y1="240" x2="980" y2="340"/><line x1="980" y1="240" x2="890" y2="340"/>
+          <line x1="700" y1="340" x2="790" y2="440"/><line x1="790" y1="340" x2="700" y2="440"/>
+          <line x1="890" y1="340" x2="980" y2="440"/><line x1="980" y1="340" x2="890" y2="440"/>
+          <!-- Lower Tier -->
+          <line x1="670" y1="440" x2="790" y2="580"/><line x1="790" y1="440" x2="670" y2="580"/>
+          <line x1="890" y1="440" x2="1010" y2="580"/><line x1="1010" y1="440" x2="890" y2="580"/>
+          <line x1="670" y1="580" x2="790" y2="720"/><line x1="790" y1="580" x2="670" y2="720"/>
+          <line x1="890" y1="580" x2="1010" y2="720"/><line x1="1010" y1="580" x2="890" y2="720"/>
+        </g>
+
+        <!-- Active Construction Self-Climbing Formwork Mesh Screen (Top Floors L52-L54) -->
+        <rect x="724" y="94" width="232" height="34" stroke="#f59e0b" stroke-width="1.4" stroke-dasharray="4 2" fill="rgba(245,158,11,0.08)"/>
+        <text x="840" y="86" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#f59e0b" font-weight="700" letter-spacing="0.06em">▲ ACTIVE LEVEL 54 CASTING DECK (JUMP FORM)</text>
+
+        <!-- Datum Level Markers on Skyscraper Right Facade -->
+        <g font-family="'JetBrains Mono', monospace" font-size="9" fill="#00d2ff" opacity="0.85">
+          <path d="M 960 55 L 972 55 M 966 55 L 966 45 M 966 45 L 972 50" stroke="#00d2ff" stroke-width="1" fill="none"/>
+          <text x="980" y="52">▽ CROWN +210.450m</text>
+
+          <path d="M 960 100 L 972 100 M 966 100 L 966 90 M 966 90 L 972 95" stroke="#00d2ff" stroke-width="1" fill="none"/>
+          <text x="980" y="97">▽ L54 +186.200m</text>
+
+          <path d="M 990 240 L 1002 240 M 996 240 L 996 230 M 996 230 L 1002 235" stroke="#00d2ff" stroke-width="1" fill="none"/>
+          <text x="1010" y="237">▽ L42 +144.900m</text>
+
+          <path d="M 1020 440 L 1032 440 M 1026 440 L 1026 430 M 1026 430 L 1032 435" stroke="#00d2ff" stroke-width="1" fill="none"/>
+          <text x="1040" y="437">▽ L24 +82.800m</text>
+        </g>
+      </g>
+
+      <!-- PRIMARY TOWER CRANE (HEAVY CLIMBING CRANE 01) -->
+      <g id="tower-crane-01" class="crane-group">
+        <!-- Crane Wall Anchor Struts into Building -->
+        <line x1="950" y1="180" x2="978" y2="180" stroke="#00d2ff" stroke-width="2.2" stroke-opacity="0.85"/>
+        <line x1="980" y1="320" x2="978" y2="320" stroke="#00d2ff" stroke-width="2.2" stroke-opacity="0.85"/>
+        <line x1="1010" y1="490" x2="978" y2="490" stroke="#00d2ff" stroke-width="2.2" stroke-opacity="0.85"/>
+
+        <!-- Vertical Tower Mast (Lattice Truss Section) -->
+        <line x1="978" y1="45" x2="978" y2="600" stroke="#00d2ff" stroke-width="2.2" stroke-opacity="0.9"/>
+        <line x1="1002" y1="45" x2="1002" y2="600" stroke="#00d2ff" stroke-width="2.2" stroke-opacity="0.9"/>
+
+        <!-- Diagonal Lattice Webbing inside the Mast -->
+        <path d="M 978 45 L 1002 65 L 978 85 L 1002 105 L 978 125 L 1002 145 L 978 165 L 1002 185 L 978 205 L 1002 225 L 978 245 L 1002 265 L 978 285 L 1002 305 L 978 325 L 1002 345 L 978 365 L 1002 385 L 978 405 L 1002 425 L 978 445 L 1002 465 L 978 485 L 1002 505 L 978 525 L 1002 545 L 978 565 L 1002 585" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.75" fill="none"/>
+        <path d="M 1002 45 L 978 65 L 1002 85 L 978 105 L 1002 125 L 978 145 L 1002 165 L 978 185 L 1002 205 L 978 225 L 1002 245 L 978 265 L 1002 285 L 978 305 L 1002 325 L 978 345 L 1002 365 L 978 385 L 1002 405 L 978 425 L 1002 445 L 978 465 L 1002 485 L 978 505 L 1002 525 L 978 545 L 1002 565 L 978 585" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.75" fill="none"/>
+
+        <!-- Slewing Unit Platform & Turntable Ring -->
+        <rect x="970" y="38" width="40" height="7" rx="1.5" stroke="#00d2ff" stroke-width="1.5" fill="rgba(0,210,255,0.3)"/>
+
+        <!-- Operator Cabin (Glazed CAD outline with internal glow) -->
+        <rect x="954" y="24" width="22" height="18" rx="2" stroke="#00d2ff" stroke-width="1.4" fill="rgba(14,165,233,0.2)"/>
+        <line x1="954" y1="33" x2="976" y2="33" stroke="#38bdf8" stroke-width="0.8"/>
+        <line x1="965" y1="24" x2="965" y2="42" stroke="#38bdf8" stroke-width="0.8"/>
+
+        <!-- Cat-Head / Tower Peak (Pyramidal Apex) -->
+        <polygon points="978,38 990,4 1002,38" stroke="#00d2ff" stroke-width="2" fill="none"/>
+        <line x1="990" y1="4" x2="990" y2="38" stroke="#00d2ff" stroke-width="1.4"/>
+        
+        <!-- Red Strobe Aircraft Hazard Warning Beacon at Apex -->
+        <circle cx="990" cy="4" r="4.5" fill="#ef4444" class="crane-strobe" filter="url(#cyan-glow)"/>
+        <circle cx="990" cy="4" r="8" stroke="#ef4444" stroke-width="1" opacity="0.5" class="crane-strobe-ring"/>
+
+        <!-- WORKING FRONT JIB (LATTICE TRUSS EXTENDING OVER HERO & SKYSCRAPER) -->
+        <line x1="990" y1="38" x2="520" y2="38" stroke="#00d2ff" stroke-width="2.2" stroke-opacity="0.95"/>
+        <line x1="990" y1="26" x2="550" y2="38" stroke="#00d2ff" stroke-width="1.8" stroke-opacity="0.85"/>
+        
+        <!-- Triangular Jib Webbing -->
+        <path d="M 990 38 L 960 27 L 930 38 L 900 28 L 870 38 L 840 29 L 810 38 L 780 30 L 750 38 L 720 31 L 690 38 L 660 32 L 630 38 L 600 33 L 570 38 L 540 35 L 520 38" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.75" fill="none"/>
+
+        <!-- Jib Pendant Steel Tie Cables from Cat-Head Peak -->
+        <line x1="990" y1="4" x2="800" y2="30" stroke="#00d2ff" stroke-width="1.4" stroke-opacity="0.8"/>
+        <line x1="990" y1="4" x2="650" y2="33" stroke="#00d2ff" stroke-width="1.2" stroke-opacity="0.75"/>
+
+        <!-- REAR COUNTER-JIB & BALLAST BLOCKS -->
+        <line x1="990" y1="38" x2="1110" y2="38" stroke="#00d2ff" stroke-width="2.2" stroke-opacity="0.9"/>
+        <line x1="990" y1="28" x2="1110" y2="38" stroke="#00d2ff" stroke-width="1.6" stroke-opacity="0.8"/>
+        <line x1="990" y1="4" x2="1090" y2="38" stroke="#00d2ff" stroke-width="1.4" stroke-opacity="0.85"/>
+
+        <!-- Counterweight Ballast Blocks (Concrete Slabs) -->
+        <rect x="1070" y="30" width="36" height="22" rx="1.5" stroke="#38bdf8" stroke-width="1.5" fill="rgba(0,210,255,0.2)"/>
+        <line x1="1082" y1="30" x2="1082" y2="52" stroke="#38bdf8" stroke-width="1"/>
+        <line x1="1094" y1="30" x2="1094" y2="52" stroke="#38bdf8" stroke-width="1"/>
+        <text x="1088" y="62" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#38bdf8" opacity="0.8">28.5t</text>
+
+        <!-- CRANE TROLLEY & HOIST CABLE SUSPENSION (Lifting Heavy Structural Steel I-Beam) -->
+        <g class="hoist-assembly" id="crane-hoist">
+          <rect x="570" y="37" width="22" height="6" rx="1" stroke="#00d2ff" stroke-width="1.2" fill="#0284c7"/>
+          
+          <!-- Twin Steel Wire Hoist Ropes -->
+          <line x1="576" y1="43" x2="576" y2="108" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.9"/>
+          <line x1="586" y1="43" x2="586" y2="108" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.9"/>
+
+          <!-- Hook Block & Sheaves Assembly -->
+          <polygon points="573,108 589,108 585,120 577,120" stroke="#00d2ff" stroke-width="1.4" fill="rgba(0,210,255,0.4)"/>
+          <path d="M 581 120 Q 581 128 586 128 Q 591 128 591 123" stroke="#00d2ff" stroke-width="2" fill="none"/>
+
+          <!-- Slings Rigging down to I-Beam -->
+          <line x1="581" y1="126" x2="540" y2="142" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.85"/>
+          <line x1="581" y1="126" x2="622" y2="142" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.85"/>
+
+          <!-- Suspended Heavy Structural Steel Wide-Flange Beam (W24 x 104 Girder) -->
+          <g transform="rotate(-1.5 581 146)">
+            <rect x="520" y="140" width="122" height="3.5" rx="0.5" stroke="#00d2ff" stroke-width="1.2" fill="#00d2ff"/>
+            <rect x="579" y="143.5" width="4" height="10" fill="#38bdf8"/>
+            <rect x="520" y="153.5" width="122" height="3.5" rx="0.5" stroke="#00d2ff" stroke-width="1.2" fill="#00d2ff"/>
+            <text x="581" y="167" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#00d2ff" font-weight="600" opacity="0.9">STEEL GIRDER W24x104 (5.8t)</text>
+          </g>
+        </g>
+
+        <!-- Technical Annotations Callouts for Crane -->
+        <polyline points="990,38 1040,12 1100,12" stroke="#00d2ff" stroke-width="0.9" stroke-opacity="0.7"/>
+        <text x="1045" y="7" font-family="'JetBrains Mono', monospace" font-size="9" fill="#00d2ff" font-weight="600">CRANE-01 // POTAIN MDT 389 (HOOK EL +188.2m)</text>
+      </g>
+    </svg>
+
+    <!-- 2. Left Column Elevation Detail Schematic -->
+    <svg class="drafting-schematic-left" viewBox="0 0 320 370" fill="none" xmlns="http://www.w3.org/2000/svg">
       <!-- Grid line with bubble -->
-      <line x1="60" y1="20" x2="60" y2="460" stroke="#00d2ff" stroke-width="1" stroke-dasharray="8 4 2 4" stroke-opacity="0.4"/>
-      <circle cx="60" cy="30" r="16" stroke="#00d2ff" stroke-width="1.2" stroke-opacity="0.6" fill="rgba(4,7,17,0.8)"/>
-      <text x="60" y="35" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" fill="#00d2ff" font-weight="700">A</text>
+      <line x1="60" y1="20" x2="60" y2="350" stroke="#00d2ff" stroke-width="1" stroke-dasharray="8 4 2 4" stroke-opacity="0.4"/>
+      <circle cx="60" cy="30" r="14" stroke="#00d2ff" stroke-width="1.2" stroke-opacity="0.6" fill="rgba(4,7,17,0.8)"/>
+      <text x="60" y="34" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#00d2ff" font-weight="700">A</text>
 
       <!-- Concrete Column Outline -->
-      <rect x="90" y="80" width="130" height="340" stroke="#38bdf8" stroke-width="1.8" stroke-opacity="0.5" fill="none"/>
+      <rect x="90" y="65" width="130" height="250" stroke="#38bdf8" stroke-width="1.8" stroke-opacity="0.5" fill="none"/>
       
       <!-- Longitudinal Rebar (Main Bars) -->
-      <line x1="105" y1="60" x2="105" y2="440" stroke="#00d2ff" stroke-width="2" stroke-opacity="0.75"/>
-      <line x1="125" y1="70" x2="125" y2="430" stroke="#00d2ff" stroke-width="1.5" stroke-opacity="0.6"/>
-      <line x1="185" y1="70" x2="185" y2="430" stroke="#00d2ff" stroke-width="1.5" stroke-opacity="0.6"/>
-      <line x1="205" y1="60" x2="205" y2="440" stroke="#00d2ff" stroke-width="2" stroke-opacity="0.75"/>
+      <line x1="105" y1="50" x2="105" y2="330" stroke="#00d2ff" stroke-width="2" stroke-opacity="0.75"/>
+      <line x1="125" y1="55" x2="125" y2="320" stroke="#00d2ff" stroke-width="1.5" stroke-opacity="0.6"/>
+      <line x1="185" y1="55" x2="185" y2="320" stroke="#00d2ff" stroke-width="1.5" stroke-opacity="0.6"/>
+      <line x1="205" y1="50" x2="205" y2="330" stroke="#00d2ff" stroke-width="2" stroke-opacity="0.75"/>
 
       <!-- Lap Splice Crank at Top -->
-      <path d="M 105 100 L 109 85 L 109 50" stroke="#00d2ff" stroke-width="1.8" stroke-opacity="0.8" fill="none"/>
-      <path d="M 205 100 L 201 85 L 201 50" stroke="#00d2ff" stroke-width="1.8" stroke-opacity="0.8" fill="none"/>
+      <path d="M 105 85 L 109 72 L 109 45" stroke="#00d2ff" stroke-width="1.8" stroke-opacity="0.8" fill="none"/>
+      <path d="M 205 85 L 201 72 L 201 45" stroke="#00d2ff" stroke-width="1.8" stroke-opacity="0.8" fill="none"/>
 
       <!-- Stirrup Ties (T8 @ 150 c/c) -->
-      <line x1="95" y1="110" x2="215" y2="110" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
-      <line x1="95" y1="140" x2="215" y2="140" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
-      <line x1="95" y1="170" x2="215" y2="170" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
-      <line x1="95" y1="200" x2="215" y2="200" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
-      <line x1="95" y1="230" x2="215" y2="230" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
-      <line x1="95" y1="260" x2="215" y2="260" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
-      <line x1="95" y1="290" x2="215" y2="290" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
-      <line x1="95" y1="320" x2="215" y2="320" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
-      <line x1="95" y1="350" x2="215" y2="350" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
-      <line x1="95" y1="380" x2="215" y2="380" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
+      <line x1="95" y1="90" x2="215" y2="90" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
+      <line x1="95" y1="120" x2="215" y2="120" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
+      <line x1="95" y1="150" x2="215" y2="150" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
+      <line x1="95" y1="180" x2="215" y2="180" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
+      <line x1="95" y1="210" x2="215" y2="210" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
+      <line x1="95" y1="240" x2="215" y2="240" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
+      <line x1="95" y1="270" x2="215" y2="270" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
+      <line x1="95" y1="300" x2="215" y2="300" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.55"/>
 
       <!-- Dimension Line for Clear Height -->
-      <line x1="240" y1="80" x2="240" y2="420" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.4"/>
-      <line x1="235" y1="80" x2="245" y2="80" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.4"/>
-      <line x1="235" y1="420" x2="245" y2="420" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.4"/>
-      <text x="252" y="255" font-family="'JetBrains Mono', monospace" font-size="10" fill="#38bdf8" transform="rotate(90 252 255)" font-weight="600">3600 mm</text>
+      <line x1="235" y1="65" x2="235" y2="315" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.4"/>
+      <line x1="230" y1="65" x2="240" y2="65" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.4"/>
+      <line x1="230" y1="315" x2="240" y2="315" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.4"/>
+      <text x="246" y="195" font-family="'JetBrains Mono', monospace" font-size="9" fill="#38bdf8" transform="rotate(90 246 195)" font-weight="600">3000 mm</text>
 
       <!-- Datum Marker Level -->
-      <path d="M 40 80 L 52 80 M 46 80 L 46 68 M 46 68 L 52 74" stroke="#00d2ff" stroke-width="1.2" stroke-opacity="0.6" fill="none"/>
-      <text x="10" y="75" font-family="'JetBrains Mono', monospace" font-size="9" fill="#00d2ff" opacity="0.7">▽ EL +14.250</text>
+      <path d="M 40 65 L 52 65 M 46 65 L 46 55 M 46 55 L 52 60" stroke="#00d2ff" stroke-width="1.2" stroke-opacity="0.6" fill="none"/>
+      <text x="10" y="60" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#00d2ff" opacity="0.7">▽ EL +14.250</text>
 
       <!-- Annotation Callout -->
-      <line x1="105" y1="200" x2="40" y2="220" stroke="#00d2ff" stroke-width="0.8" stroke-opacity="0.6"/>
-      <text x="10" y="235" font-family="'JetBrains Mono', monospace" font-size="9" fill="#00d2ff" opacity="0.8">T8@150 c/c</text>
-      <text x="90" y="445" font-family="'JetBrains Mono', monospace" font-size="10" fill="#38bdf8" opacity="0.75" font-weight="600">COL C-12 (ELEVATION)</text>
+      <line x1="105" y1="160" x2="40" y2="180" stroke="#00d2ff" stroke-width="0.8" stroke-opacity="0.6"/>
+      <text x="10" y="194" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#00d2ff" opacity="0.8">T8@150 c/c</text>
+      <text x="90" y="335" font-family="'JetBrains Mono', monospace" font-size="9" fill="#38bdf8" opacity="0.75" font-weight="600">COL C-12 (ELEVATION)</text>
     </svg>
 
-    <!-- Right Column Section & Reinforcement Schedule Plan -->
-    <svg class="drafting-schematic-right" viewBox="0 0 340 380" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Grid Crosshairs (Grid 3 & B) -->
-      <line x1="40" y1="160" x2="300" y2="160" stroke="#00d2ff" stroke-width="1" stroke-dasharray="8 4 2 4" stroke-opacity="0.4"/>
-      <line x1="160" y1="30" x2="160" y2="310" stroke="#00d2ff" stroke-width="1" stroke-dasharray="8 4 2 4" stroke-opacity="0.4"/>
-      
-      <!-- Grid Bubbles -->
-      <circle cx="310" cy="160" r="14" stroke="#00d2ff" stroke-width="1.2" stroke-opacity="0.6" fill="rgba(4,7,17,0.8)"/>
-      <text x="310" y="164" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#00d2ff" font-weight="700">3</text>
-      
-      <circle cx="160" cy="20" r="14" stroke="#00d2ff" stroke-width="1.2" stroke-opacity="0.6" fill="rgba(4,7,17,0.8)"/>
-      <text x="160" y="24" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#00d2ff" font-weight="700">B</text>
+    <!-- 3. Right Column Section & Reinforced Beam Longitudinal Detail -->
+    <svg class="drafting-schematic-right" viewBox="0 0 360 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Column Section (Detail A) -->
+      <g id="col-section">
+        <!-- Grid Crosshairs (Grid 3 & B) -->
+        <line x1="50" y1="105" x2="290" y2="105" stroke="#00d2ff" stroke-width="1" stroke-dasharray="8 4 2 4" stroke-opacity="0.4"/>
+        <line x1="160" y1="15" x2="160" y2="195" stroke="#00d2ff" stroke-width="1" stroke-dasharray="8 4 2 4" stroke-opacity="0.4"/>
+        
+        <!-- Grid Bubbles -->
+        <circle cx="300" cy="105" r="13" stroke="#00d2ff" stroke-width="1.2" stroke-opacity="0.6" fill="rgba(4,7,17,0.85)"/>
+        <text x="300" y="109" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#00d2ff" font-weight="700">3</text>
+        
+        <circle cx="160" cy="14" r="13" stroke="#00d2ff" stroke-width="1.2" stroke-opacity="0.6" fill="rgba(4,7,17,0.85)"/>
+        <text x="160" y="18" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#00d2ff" font-weight="700">B</text>
 
-      <!-- Outer Column Concrete Boundary (450 x 600 mm) -->
-      <rect x="75" y="70" width="170" height="210" rx="3" stroke="#38bdf8" stroke-width="2" stroke-opacity="0.6" fill="rgba(10,18,36,0.5)"/>
+        <!-- Outer Column Boundary (450 x 600 mm) -->
+        <rect x="85" y="42" width="150" height="126" rx="3" stroke="#38bdf8" stroke-width="1.8" stroke-opacity="0.6" fill="rgba(10,18,36,0.5)"/>
 
-      <!-- Inner Stirrup Rectangle with 40mm Cover -->
-      <rect x="90" y="85" width="140" height="180" rx="6" stroke="#00d2ff" stroke-width="1.5" stroke-opacity="0.75" fill="none"/>
-      
-      <!-- Stirrup 135 Hook Bends in Top-Left Corner -->
-      <path d="M 90 95 L 105 110 M 90 100 L 110 115" stroke="#00d2ff" stroke-width="1.5" stroke-opacity="0.8"/>
+        <!-- Inner Stirrup Rectangle with 40mm Cover -->
+        <rect x="98" y="55" width="124" height="100" rx="5" stroke="#00d2ff" stroke-width="1.4" stroke-opacity="0.75" fill="none"/>
+        
+        <!-- Stirrup 135 Hook Bends in Top-Left Corner -->
+        <path d="M 98 63 L 110 75 M 98 67 L 114 79" stroke="#00d2ff" stroke-width="1.4" stroke-opacity="0.8"/>
 
-      <!-- 8 Longitudinal Rebar Steel Bars (Circles) -->
-      <!-- Top Row (3 bars) -->
-      <circle cx="98" cy="93" r="5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1.2"/>
-      <circle cx="160" cy="93" r="5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1.2"/>
-      <circle cx="222" cy="93" r="5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1.2"/>
-      <!-- Middle Row (2 bars) -->
-      <circle cx="98" cy="175" r="5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1.2"/>
-      <circle cx="222" cy="175" r="5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1.2"/>
-      <!-- Bottom Row (3 bars) -->
-      <circle cx="98" cy="257" r="5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1.2"/>
-      <circle cx="160" cy="257" r="5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1.2"/>
-      <circle cx="222" cy="257" r="5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1.2"/>
+        <!-- 8 Longitudinal Rebar Steel Bars (Circles) -->
+        <circle cx="105" cy="62" r="4.5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1"/>
+        <circle cx="160" cy="62" r="4.5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1"/>
+        <circle cx="215" cy="62" r="4.5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1"/>
+        <circle cx="105" cy="105" r="4.5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1"/>
+        <circle cx="215" cy="105" r="4.5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1"/>
+        <circle cx="105" cy="148" r="4.5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1"/>
+        <circle cx="160" cy="148" r="4.5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1"/>
+        <circle cx="215" cy="148" r="4.5" fill="#00d2ff" stroke="#38bdf8" stroke-width="1"/>
 
-      <!-- Dimension Lines -->
-      <!-- Width Dimension (450 mm) -->
-      <line x1="75" y1="52" x2="245" y2="52" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.45"/>
-      <line x1="75" y1="48" x2="75" y2="56" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.45"/>
-      <line x1="245" y1="48" x2="245" y2="56" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.45"/>
-      <text x="160" y="46" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#00d2ff" font-weight="600">450 mm</text>
+        <!-- Dimension Lines -->
+        <line x1="85" y1="28" x2="235" y2="28" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.45"/>
+        <text x="160" y="24" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9.5" fill="#00d2ff" font-weight="600">450 mm</text>
 
-      <!-- Depth Dimension (600 mm) -->
-      <line x1="56" y1="70" x2="56" y2="280" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.45"/>
-      <line x1="52" y1="70" x2="60" y2="70" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.45"/>
-      <line x1="52" y1="280" x2="60" y2="280" stroke="#94a3b8" stroke-width="1" stroke-opacity="0.45"/>
-      <text x="44" y="180" font-family="'JetBrains Mono', monospace" font-size="10" fill="#00d2ff" transform="rotate(-90 44 180)" font-weight="600">600 mm</text>
+        <!-- Callout Line to Rebar -->
+        <polyline points="215,62 245,42 285,42" stroke="#00d2ff" stroke-width="0.9" stroke-opacity="0.6"/>
+        <text x="245" y="35" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#00d2ff" font-weight="600">8-T20 Fe500</text>
+        <text x="160" y="184" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#38bdf8" font-weight="700">COL C-12 • SECTION 1-1 (1:20)</text>
+      </g>
 
-      <!-- Callout Line to Rebar -->
-      <polyline points="222,93 260,70 300,70" stroke="#00d2ff" stroke-width="0.9" stroke-opacity="0.6"/>
-      <text x="260" y="62" font-family="'JetBrains Mono', monospace" font-size="9" fill="#00d2ff" font-weight="600">8-T20 Fe500</text>
+      <!-- Divider Line -->
+      <line x1="30" y1="202" x2="330" y2="202" stroke="#00d2ff" stroke-width="1" stroke-opacity="0.25" stroke-dasharray="4 4"/>
 
-      <!-- Title at bottom -->
-      <text x="160" y="325" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10.5" fill="#38bdf8" font-weight="700" letter-spacing="0.05em">DETAIL A • SECTION 1-1 (1:20)</text>
+      <!-- Reinforced Concrete Beam B-104 Longitudinal Section & Reinforcement -->
+      <g id="beam-schematic" transform="translate(0, 215)">
+        <text x="20" y="14" font-family="'JetBrains Mono', monospace" font-size="9.5" fill="#38bdf8" font-weight="700" letter-spacing="0.04em">BEAM B-104 (300 x 500) • REBAR</text>
+        <text x="285" y="14" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#00d2ff" opacity="0.8">IS 456 / ACI</text>
+
+        <!-- Supporting Column Outlines (Left and Right Support Stubs) -->
+        <rect x="18" y="25" width="40" height="120" stroke="#38bdf8" stroke-width="1.4" stroke-dasharray="4 2" fill="none" opacity="0.5"/>
+        <rect x="295" y="25" width="45" height="120" stroke="#38bdf8" stroke-width="1.4" stroke-dasharray="4 2" fill="none" opacity="0.5"/>
+
+        <!-- Concrete Beam Outer Boundary (Span) -->
+        <rect x="18" y="40" width="322" height="72" stroke="#38bdf8" stroke-width="1.8" stroke-opacity="0.6" fill="rgba(10,18,36,0.4)"/>
+
+        <!-- Top Continuous Reinforcement (2-T16) + Support Extra Bars -->
+        <line x1="28" y1="52" x2="330" y2="52" stroke="#00d2ff" stroke-width="1.8" stroke-opacity="0.85"/>
+        <!-- 90 Deg Anchor Hooks at Top ends -->
+        <path d="M 28 66 L 28 52 M 330 66 L 330 52" stroke="#00d2ff" stroke-width="1.8" stroke-opacity="0.85"/>
+
+        <!-- Bottom Continuous Tension Reinforcement (3-T20) -->
+        <line x1="28" y1="100" x2="330" y2="100" stroke="#00d2ff" stroke-width="2.2" stroke-opacity="0.9"/>
+        <!-- 90 Deg Anchor Hooks at Bottom ends turning up -->
+        <path d="M 28 86 L 28 100 M 330 86 L 330 100" stroke="#00d2ff" stroke-width="2.2" stroke-opacity="0.9"/>
+
+        <!-- Shear Stirrup Links (Vertical Ties) -->
+        <!-- Support Critical Shear Zone (Close Spacing @ 100 c/c) -->
+        <line x1="65" y1="46" x2="65" y2="106" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.7"/>
+        <line x1="80" y1="46" x2="80" y2="106" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.7"/>
+        <line x1="95" y1="46" x2="95" y2="106" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.7"/>
+        <line x1="110" y1="46" x2="110" y2="106" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.7"/>
+
+        <!-- Midspan Shear Links (Normal Spacing @ 180 c/c) -->
+        <line x1="135" y1="46" x2="135" y2="106" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.5"/>
+        <line x1="165" y1="46" x2="165" y2="106" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.5"/>
+        <line x1="195" y1="46" x2="195" y2="106" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.5"/>
+        <line x1="225" y1="46" x2="225" y2="106" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.5"/>
+
+        <!-- Right Support Critical Shear Zone (Close Spacing @ 100 c/c) -->
+        <line x1="250" y1="46" x2="250" y2="106" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.7"/>
+        <line x1="265" y1="46" x2="265" y2="106" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.7"/>
+        <line x1="280" y1="46" x2="280" y2="106" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.7"/>
+        <line x1="295" y1="46" x2="295" y2="106" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.7"/>
+
+        <!-- Parabolic Bending Moment Envelope (Hogging over support, Sagging at midspan) -->
+        <path d="M 58 60 Q 180 120 295 60" stroke="#00d2ff" stroke-width="1.2" stroke-dasharray="3 3" stroke-opacity="0.5" fill="none"/>
+        <text x="180" y="115" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="7.5" fill="#00d2ff" opacity="0.6">M_u (+) SAGGING</text>
+
+        <!-- Annotations & Callouts -->
+        <text x="60" y="125" font-family="'JetBrains Mono', monospace" font-size="8" fill="#00d2ff">2L-T8 @ 100</text>
+        <text x="155" y="132" font-family="'JetBrains Mono', monospace" font-size="8" fill="#94a3b8">T8 @ 180 c/c</text>
+        <text x="240" y="125" font-family="'JetBrains Mono', monospace" font-size="8" fill="#00d2ff">2L-T8 @ 100</text>
+        
+        <polyline points="330,100 342,100 342,118" stroke="#00d2ff" stroke-width="0.8"/>
+        <text x="260" y="152" font-family="'JetBrains Mono', monospace" font-size="8" fill="#00d2ff" font-weight="600">3-T20 BTM MAIN</text>
+        <text x="20" y="152" font-family="'JetBrains Mono', monospace" font-size="8" fill="#38bdf8" font-weight="600">2-T16 TOP HANGERS</text>
+      </g>
     </svg>
+
+    <!-- 4. Site Engineer with Helmet & Hi-Vis Safety Jacket (Looking up at Skyscraper) -->
+    <svg class="drafting-engineer" viewBox="0 0 380 460" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="vest-glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3.5" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+        <linearGradient id="deck-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#00d2ff" stop-opacity="0.8"/>
+          <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.2"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Structural Cantilever Deck & Railing (Site Mezzanine Platform) -->
+      <g id="deck-platform" opacity="0.85">
+        <line x1="20" y1="415" x2="360" y2="415" stroke="#00d2ff" stroke-width="2.5"/>
+        <rect x="20" y="415" width="340" height="12" fill="rgba(10,18,36,0.8)" stroke="#38bdf8" stroke-width="1.2"/>
+        
+        <line x1="20" y1="427" x2="360" y2="427" stroke="#00d2ff" stroke-width="1.8"/>
+        <line x1="60" y1="427" x2="40" y2="455" stroke="#00d2ff" stroke-width="2" stroke-opacity="0.6"/>
+        <line x1="160" y1="427" x2="140" y2="455" stroke="#00d2ff" stroke-width="2" stroke-opacity="0.6"/>
+        <line x1="260" y1="427" x2="240" y2="455" stroke="#00d2ff" stroke-width="2" stroke-opacity="0.6"/>
+
+        <line x1="330" y1="280" x2="330" y2="415" stroke="#38bdf8" stroke-width="2"/>
+        <line x1="210" y1="280" x2="350" y2="280" stroke="#38bdf8" stroke-width="2" stroke-opacity="0.8"/>
+        <line x1="210" y1="340" x2="350" y2="340" stroke="#38bdf8" stroke-width="1.4" stroke-opacity="0.6"/>
+        <rect x="210" y="405" width="140" height="10" fill="rgba(0,210,255,0.15)" stroke="#00d2ff" stroke-width="1"/>
+        <text x="325" y="400" font-family="'JetBrains Mono', monospace" font-size="8" fill="#38bdf8" opacity="0.7" transform="rotate(-90 325 400)">TOE BOARD</text>
+        <text x="30" y="440" font-family="'JetBrains Mono', monospace" font-size="9" fill="#00d2ff" opacity="0.75" font-weight="600">STAGING DECK EL +14.250</text>
+      </g>
+
+      <!-- SITE ENGINEER FIGURE (HEAD TILTED UPWARD LOOKING AT SKYSCRAPER/CRANE) -->
+      <g id="site-engineer-figure" class="engineer-figure">
+        
+        <!-- AR Targeting Laser Sightline from Engineer Eye towards Skyscraper Crown -->
+        <g class="engineer-sightline">
+          <line x1="184" y1="120" x2="370" y2="15" stroke="#00d2ff" stroke-width="1.5" stroke-dasharray="6 4" stroke-opacity="0.8" class="sightline-pulse"/>
+          <circle cx="360" cy="22" r="7" stroke="#00d2ff" stroke-width="1.2" stroke-opacity="0.9" fill="none"/>
+          <circle cx="360" cy="22" r="2" fill="#00d2ff"/>
+          <line x1="348" y1="22" x2="372" y2="22" stroke="#00d2ff" stroke-width="1" stroke-opacity="0.8"/>
+          <line x1="360" y1="10" x2="360" y2="34" stroke="#00d2ff" stroke-width="1" stroke-opacity="0.8"/>
+          <text x="270" y="42" font-family="'JetBrains Mono', monospace" font-size="8" fill="#00d2ff" font-weight="600">SIGHTLINE: TOWER L54</text>
+        </g>
+
+        <!-- HEAVY WORK BOOTS (Planted firmly on steel deck) -->
+        <path d="M 125 415 L 125 395 L 140 393 L 152 405 L 158 415 Z" fill="#0a1224" stroke="#00d2ff" stroke-width="1.8"/>
+        <path d="M 172 415 L 172 395 L 188 393 L 202 405 L 208 415 Z" fill="#0a1224" stroke="#00d2ff" stroke-width="1.8"/>
+        <line x1="125" y1="412" x2="158" y2="412" stroke="#38bdf8" stroke-width="1.5"/>
+        <line x1="172" y1="412" x2="208" y2="412" stroke="#38bdf8" stroke-width="1.5"/>
+
+        <!-- WORK CARGO PANTS / LEGS -->
+        <path d="M 130 320 L 125 395 L 144 395 L 152 320 Z" fill="#0a162e" stroke="#38bdf8" stroke-width="1.5"/>
+        <path d="M 166 320 L 172 395 L 192 395 L 186 320 Z" fill="#0a162e" stroke="#38bdf8" stroke-width="1.5"/>
+        <rect x="122" y="340" width="12" height="18" rx="2" stroke="#00d2ff" stroke-width="1" fill="none" opacity="0.6"/>
+        <rect x="182" y="340" width="12" height="18" rx="2" stroke="#00d2ff" stroke-width="1" fill="none" opacity="0.6"/>
+        <line x1="130" y1="365" x2="142" y2="365" stroke="#38bdf8" stroke-width="1.2" opacity="0.7"/>
+        <line x1="174" y1="365" x2="186" y2="365" stroke="#38bdf8" stroke-width="1.2" opacity="0.7"/>
+
+        <!-- HIGH-VISIBILITY SAFETY JACKET / VEST WITH GLOWING STRIPES -->
+        <!-- Main Jacket Body Silhouette -->
+        <path d="M 120 200 L 130 320 L 188 320 L 198 200 L 180 160 L 138 160 Z" fill="#0c1d3d" stroke="#38bdf8" stroke-width="1.8"/>
+
+        <!-- Dual Heavy Duty Reflective Horizontal Bands (Glowing Neon Cyan) -->
+        <path d="M 128 290 L 190 290 L 191 304 L 127 304 Z" fill="rgba(0,240,255,0.35)" stroke="#00f0ff" stroke-width="2" filter="url(#vest-glow)"/>
+        <line x1="128" y1="297" x2="190" y2="297" stroke="#ffffff" stroke-width="1" stroke-opacity="0.8"/>
+
+        <path d="M 124 245 L 194 245 L 195 259 L 123 259 Z" fill="rgba(0,240,255,0.35)" stroke="#00f0ff" stroke-width="2" filter="url(#vest-glow)"/>
+        <line x1="124" y1="252" x2="194" y2="252" stroke="#ffffff" stroke-width="1" stroke-opacity="0.8"/>
+
+        <!-- Vertical Suspender Reflective Bands (Over Shoulders down to Waist) -->
+        <path d="M 138 160 L 140 245 L 152 245 L 148 160 Z" fill="rgba(0,240,255,0.25)" stroke="#00f0ff" stroke-width="1.5"/>
+        <path d="M 140 259 L 142 290 L 152 290 L 150 259 Z" fill="rgba(0,240,255,0.25)" stroke="#00f0ff" stroke-width="1.5"/>
+
+        <path d="M 170 160 L 166 245 L 178 245 L 180 160 Z" fill="rgba(0,240,255,0.25)" stroke="#00f0ff" stroke-width="1.5"/>
+        <path d="M 166 259 L 168 290 L 178 290 L 176 259 Z" fill="rgba(0,240,255,0.25)" stroke="#00f0ff" stroke-width="1.5"/>
+
+        <!-- Central Heavy-Duty Zipper Line -->
+        <line x1="159" y1="160" x2="159" y2="320" stroke="#00d2ff" stroke-width="1.5" stroke-dasharray="3 2"/>
+
+        <!-- Radio / Walkie-Talkie on Left Lapel -->
+        <rect x="132" y="175" width="10" height="22" rx="2" fill="#040711" stroke="#00d2ff" stroke-width="1.2"/>
+        <line x1="135" y1="175" x2="135" y2="155" stroke="#00d2ff" stroke-width="1.5"/>
+        <circle cx="135" cy="154" r="1.5" fill="#38bdf8"/>
+
+        <!-- Site Engineer Lanyard & ID Card Badge -->
+        <rect x="168" y="210" width="16" height="22" rx="1.5" fill="#040711" stroke="#38bdf8" stroke-width="1"/>
+        <line x1="170" y1="216" x2="182" y2="216" stroke="#00d2ff" stroke-width="1"/>
+        <line x1="170" y1="221" x2="180" y2="221" stroke="#94a3b8" stroke-width="0.8"/>
+        <line x1="170" y1="225" x2="178" y2="225" stroke="#94a3b8" stroke-width="0.8"/>
+
+        <!-- ARMS & HANDS HOLDING RUGGED AEC TABLET -->
+        <path d="M 122 190 L 105 240 L 140 260" stroke="#38bdf8" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M 122 190 L 105 240 L 140 260" stroke="#00d2ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+        <path d="M 196 190 L 210 235 L 180 260" stroke="#38bdf8" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M 196 190 L 210 235 L 180 260" stroke="#00d2ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+        <!-- Rugged AEC Site Tablet (Displaying Blueprint/Data Grid) -->
+        <g transform="rotate(-15 160 255)">
+          <rect x="135" y="240" width="55" height="38" rx="4" fill="#040817" stroke="#00d2ff" stroke-width="2"/>
+          <circle cx="137" cy="242" r="3" fill="#00d2ff"/>
+          <circle cx="188" cy="242" r="3" fill="#00d2ff"/>
+          <circle cx="137" cy="276" r="3" fill="#00d2ff"/>
+          <circle cx="188" cy="276" r="3" fill="#00d2ff"/>
+          <rect x="140" y="245" width="45" height="28" rx="1.5" fill="rgba(0,210,255,0.22)" stroke="#38bdf8" stroke-width="0.8"/>
+          <line x1="144" y1="250" x2="162" y2="250" stroke="#00d2ff" stroke-width="1"/>
+          <line x1="144" y1="255" x2="178" y2="255" stroke="#00d2ff" stroke-width="0.8"/>
+          <line x1="144" y1="262" x2="175" y2="262" stroke="#00d2ff" stroke-width="0.8"/>
+          <polygon points="140,245 185,245 198,215 125,215" fill="url(#crane-light-grad)" opacity="0.35"/>
+        </g>
+
+        <!-- HEAD & SAFETY HELMET (TILTED UPWARD LOOKING AT SKY / CRANE) -->
+        <path d="M 152 160 L 158 135 L 174 138 L 170 160 Z" fill="#0a162e" stroke="#38bdf8" stroke-width="1.2"/>
+
+        <!-- Head Profile & Safety Visor / Glasses -->
+        <path d="M 160 136 L 172 138 L 180 130 L 184 122 L 178 116 L 164 116 Z" fill="#0e1e3e" stroke="#38bdf8" stroke-width="1.5"/>
+        <path d="M 174 120 L 186 118 L 187 124 L 176 126 Z" fill="#00d2ff" stroke="#ffffff" stroke-width="1" filter="url(#vest-glow)"/>
+
+        <!-- SAFETY HELMET / HARDHAT (Industrial Shell with Peak & Chin Strap) -->
+        <path d="M 162 118 L 168 135 L 172 136" stroke="#00d2ff" stroke-width="1.2" fill="none"/>
+        <path d="M 148 122 C 145 100, 162 86, 185 92 C 196 95, 202 105, 198 118 Z" fill="#040b18" stroke="#00d2ff" stroke-width="2.2"/>
+        <path d="M 194 112 L 206 110 L 204 118 L 192 118 Z" fill="#00d2ff" stroke="#38bdf8" stroke-width="1.5"/>
+        <path d="M 148 122 L 140 126 L 143 130 L 151 126 Z" fill="#00d2ff" stroke="#38bdf8" stroke-width="1"/>
+        <path d="M 152 110 C 160 94, 175 92, 192 102" stroke="#38bdf8" stroke-width="2" fill="none"/>
+        <path d="M 155 116 C 166 102, 180 102, 194 112" stroke="#f59e0b" stroke-width="2.2" fill="none" opacity="0.9"/>
+        <rect x="195" y="104" width="5" height="7" rx="1" fill="#f59e0b" stroke="#ffffff" stroke-width="0.8"/>
+      </g>
+
+      <!-- HUD TELEMETRY BADGE (ATTACHED TO SITE ENGINEER) -->
+      <g id="engineer-telemetry" transform="translate(195, 305)">
+        <polygon points="0,0 165,0 175,10 175,76 162,86 0,86" fill="rgba(4,9,24,0.92)" stroke="#00d2ff" stroke-width="1.2"/>
+        <line x1="0" y1="0" x2="14" y2="0" stroke="#00d2ff" stroke-width="2.5"/>
+        <line x1="0" y1="0" x2="0" y2="14" stroke="#00d2ff" stroke-width="2.5"/>
+        <circle cx="10" cy="12" r="3" fill="#00d2ff"/>
+
+        <text x="18" y="16" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#00d2ff" font-weight="700">CHIEF SITE ENG</text>
+        <text x="10" y="30" font-family="'JetBrains Mono', monospace" font-size="7.5" fill="#94a3b8">PPE: <tspan fill="#38bdf8" font-weight="600">CLASS 3 HI-VIS</tspan></text>
+        <text x="10" y="44" font-family="'JetBrains Mono', monospace" font-size="7.5" fill="#94a3b8">TARGET: <tspan fill="#00d2ff" font-weight="600">CRANE-01</tspan></text>
+        <text x="10" y="58" font-family="'JetBrains Mono', monospace" font-size="7.5" fill="#94a3b8">DWG: <tspan fill="#10b981" font-weight="600">● 100% SYNC</tspan></text>
+        <text x="10" y="72" font-family="'JetBrains Mono', monospace" font-size="7" fill="#64748b">IS 456 / ACI 318</text>
+      </g>
+    </svg>
+
   </div>
   <div class="cad-hud-marker hud-top-left">[SYS: AI SITE ENGINEER V1]</div>
   <div class="cad-hud-marker hud-top-right">[AEC DOMAIN INTELLIGENCE]</div>
@@ -705,7 +1229,6 @@
           <span>CONSTRUCTION INTELLIGENCE</span>
         </div>
       </a>
-      <a href="#features" class="btn-features">Explore 7 Capabilities ↓</a>
     </header>
 
     <!-- 1. Hero Section ("What It's All About") -->
@@ -723,10 +1246,6 @@
         Stop digging through hundreds of revision drawings and fragmented spreadsheets. 
         AI Site Engineer unifies your structural drawings, BOQs, and BBS schedules into an intelligent, auditable copilot.
       </p>
-
-      <div class="hero-principle-banner">
-        ⚙️ <strong>Core Architectural Principle:</strong> RAG finds engineering information; deterministic tools perform calculations; the LLM orchestrates and explains.
-      </div>
 
       <div class="hero-actions">
         <a href="#features" class="btn-cta">Explore The 7 Core Features ↓</a>
