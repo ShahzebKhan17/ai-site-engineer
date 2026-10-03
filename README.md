@@ -5,22 +5,6 @@
 
 ---
 
-## 📌 Development Progress & Phase Status
-
-| Phase | Milestone | Status | Notes |
-|:---|:---|:---:|:---|
-| **Phase 0** | **Product & Architecture** | **COMPLETED** | Scope locked, 7 capabilities defined, database entities modeled, architecture documented in [`docs/ARCHITECTURE.md`](file:///c:/Users/hp/Downloads/Switch/AI%20Site%20Engineer/docs/ARCHITECTURE.md), and backend scaffold verified. |
-| **Phase 1** | **Project & Document Management** | *NEXT* | Project isolation, document categorization, file upload, revision tracking. |
-| **Phase 2** | **Document Processing Pipeline** | *Pending* | PDF/DOCX/XLSX parsing, schedule/table extraction, chunking with metadata. |
-| **Phase 3** | **Hybrid RAG** | *Pending* | Vector search (pgvector) + BM25 + Reciprocal Rank Fusion (RRF). |
-| **Phase 4** | **Construction Calculation Engine** | *Pending* | Deterministic rebar weight, concrete volumes, formwork, excavation, brickwork. |
-| **Phase 5** | **BOQ ↔ Drawing Intelligence** | *Pending* | Automated quantity takeoff cross-checking & variance flagging. |
-| **Phase 6** | **Revision & Conflict Intelligence** | *Pending* | Multi-revision diffing and inter-document clash detection. |
-| **Phase 7** | **Site Execution Assistant** | *Pending* | Daily Progress Reports (DPR), pour logs, automated RFI drafts. |
-| **Phase 8** | **Production Polish** | *Pending* | Access control, Docker deployment, CI/CD, and Next.js dashboard. |
-
----
-
 ## 🏛️ System Architecture
 
 AI Site Engineer is engineered on an auditable **Three-Tier Architecture**:
