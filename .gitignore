@@ -1,4 +1,27 @@
+# Development & IDE
 .vscode/
+.idea/
 .DS_Store
 Thumbs.db
+
+# Dependencies & Environments
 node_modules/
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local Databases & Storage
+*.db
+*.sqlite3
+uploads/
+
+# Environment Variables
+.env
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/

@@ -1,0 +1,306 @@
+================================================================================
+AI SITE ENGINEER — COMPREHENSIVE PROJECT FLOWS & SYSTEM SPECIFICATION
+================================================================================
+Project: AI Site Engineer (Construction Intelligence & Engineering Copilot)
+Repository: ShahzebKhan17/ai-site-engineer
+Domain: Architecture, Engineering & Construction (AEC) / Civil & Structural Engineering
+Compliance: IS 1786, IS 456, IS 1200, ACI 318, British Standards (BS)
+
+--------------------------------------------------------------------------------
+1. PROJECT OVERVIEW & ARCHITECTURAL PHILOSOPHY
+--------------------------------------------------------------------------------
+AI Site Engineer is an intelligent, auditable copilot designed for site engineers, 
+structural consultants, quantity surveyors (QS), and project managers. In modern 
+construction projects, teams waste hours cross-referencing hundreds of revision drawings, 
+specifications, tender Bill of Quantities (BOQ), and Bar Bending Schedules (BBS), leading 
+to costly on-site fabrication errors, material wastage, and disputes.
+
+AI Site Engineer solves this through a non-negotiable Three-Tier Architecture:
+  1. RAG Retrieves Context: Hybrid retrieval (Dense Semantic + BM25 Lexical + RRF)
+     surfaces exact clauses, schedule rows, and drawing details with sheet/revision citations.
+  2. Deterministic Tools Calculate: LLMs NEVER perform mental arithmetic. Calculations
+     (rebar weights, concrete volumes, shuttering areas, earthworks) are delegated to 
+     strictly tested, deterministic Python modules with unit and range validations.
+  3. LLM Orchestrates & Synthesizes: The language model parses user intent, routes tasks 
+     to appropriate tools, extracts parameters, and presents structured, auditable outputs.
+
+Guiding Golden Rule:
+"Never hallucinate engineering values. If a drawing dimension is missing or ambiguous, 
+flag it for engineering verification rather than guessing."
+
+--------------------------------------------------------------------------------
+2. SYSTEM ARCHITECTURE & ENGINE COMPONENTS
+--------------------------------------------------------------------------------
+A. INGESTION & PARSING ENGINE
+   - Document Types: Structural Drawings (PDF/DWG/DXF), Architectural Floor Plans,
+     Tender BOQ spreadsheets (XLSX/CSV), Bar Bending Schedules (BBS), Daily Site Logs,
+     and RMC Batching Plant Slips.
+   - Parsing Stack: Multimodal OCR, PDF layout extraction, CAD layer parsing, table 
+     structure recognition (for schedules and BOQ lines).
+   - Metadata Tagging: Every extracted chunk is indexed with:
+       * Project ID, Document Category, Sheet Number, Drawing Title
+       * Revision Number & Revision Date
+       * Grid Reference (e.g., Grid A-B / 1-4)
+       * Element Tags (e.g., COL-C12, BEAM-B104, FTG-F4, SLAB-S1)
+       * Elevation / Level (e.g., Level +14.250m, Foundation Level -3.500m)
+
+B. HYBRID RETRIEVAL LAYER (RAG)
+   - Dense Vector Retrieval: High-dimensional embeddings capturing semantic engineering context.
+   - Sparse Lexical Search (BM25): Critical for exact matches of alphanumeric member tags 
+     (e.g., "C-12", "T20 Fe500", "IS 456 Table 16").
+   - Reciprocal Rank Fusion (RRF): Blends lexical and dense ranks to produce high-precision hits.
+   - Metadata Filter: Restricts queries to the latest approved revision by default.
+
+C. DETERMINISTIC CALCULATION ENGINE (PYTHON TOOLS)
+   - Certified engineering formulas implemented in pure Python with zero LLM approximation:
+     * Rebar Unit Weight: W = (D^2 / 162.2) kg/m [IS 1786 formula]
+     * Total Bar Weight: W_total = Length (m) * No. of Bars * (D^2 / 162.2) * (1 + Wastage%)
+     * Concrete Volume: Net Volume = L * B * H - Embedded Structural Deductions
+     * Wet to Dry Concrete Factor: Dry Material = Net Wet Volume * 1.54 to 1.57
+     * Mix Ratio Breakup: Proportions for M15, M20, M25, M30 (Cement, Fine Sand, Coarse Aggregate)
+     * Shuttering / Formwork Contact Area: Perimeter of concrete surface in contact with formwork
+     * Earthwork Excavation: Volume = L * B * Depth + Safe Slope Angle of Repose (IS 1200 Part 1)
+     * Masonry / Brickwork: Wall Volume - Opening Deductions + Mortar Joint Factor
+
+D. LLM AGENT & ORCHESTRATION LAYER
+   - Tool calling / Function calling protocol: LLM detects intent, constructs JSON payloads, 
+     triggers deterministic endpoints, and embeds calculated numbers into human-readable, 
+     domain-accurate answers.
+
+--------------------------------------------------------------------------------
+3. THE 7 END-TO-END PROJECT FLOWS
+--------------------------------------------------------------------------------
+
+================================================================================
+FLOW 1: PROJECT DOCUMENT & DRAWING Q&A FLOW
+================================================================================
+Purpose:
+  Enable site teams to rapidly interrogate large document sets (drawings, specifications, 
+  tender clauses, daily logs) and receive verified answers with pinpoint citations.
+
+Trigger:
+  Site engineer enters a technical question via web dashboard or mobile chat.
+  Example: "What is the specified development/lap length for 25mm diameter bars in Column C-12?"
+
+Execution Lifecycle:
+  Step 1: Intent Classification & Query Parsing
+          - Extracts entity: Column C-12, Bar Dia: 25mm, Property: Lap / Development Length.
+  Step 2: Hybrid Retrieval
+          - BM25 searches for "Column C-12", "Lap Length", "Development Length", "25mm".
+          - Vector search queries general notes on structural drawings and code specifications.
+          - Metadata filtering defaults to the latest approved revision (e.g., Rev 3).
+  Step 3: Verification & Context Assembly
+          - Aggregates relevant drawing schedule snippets and general notes (e.g., "Lap length = 50d").
+  Step 4: Deterministic Calculation Tool (if arithmetic needed)
+          - Calls calculation function: 50 * 25mm = 1250 mm.
+  Step 5: Synthesized Answer Generation
+          - Formats response citing exact Drawing Sheet (e.g., DWG-STR-COL-04, Rev 3, Note 4.2).
+          - Flags code compliance notes (IS 456 Clause 26.2.1).
+
+Output:
+  - Concise technical answer.
+  - Direct clickable citation (Sheet No., Title, Rev No., Grid location).
+  - Relevant code reference.
+
+================================================================================
+FLOW 2: DETERMINISTIC QUANTITY TAKEOFF ENGINE FLOW
+================================================================================
+Purpose:
+  Perform 100% accurate, error-free construction material quantity takeoffs without 
+  relying on LLM arithmetic.
+
+Trigger:
+  User requests material estimate for a structural component or schedule list.
+  Example: "Calculate total steel weight for 40 numbers of Column C-12 with 8-T20 bars of length 3.6m."
+
+Execution Lifecycle:
+  Step 1: Parameter Extraction & Normalization
+          - Count: 40 units
+          - Longitudinal bars: 8 bars per column
+          - Bar Diameter: 20 mm (T20)
+          - Length per bar: 3.6 m
+          - Standard lap / crank allowances (if specified)
+  Step 2: Validation
+          - Check diameter in standard sizes: [8, 10, 12, 16, 20, 25, 28, 32, 36, 40] mm.
+          - Check lengths and quantities are positive numbers.
+  Step 3: Deterministic Function Call (Python)
+          - Unit weight = (20^2) / 162.2 = 2.466 kg/m.
+          - Total length = 40 * 8 * 3.6m = 1152.0 m.
+          - Base weight = 1152.0 * 2.466 = 2840.83 kg (~2.84 Metric Tons).
+          - Apply standard 3% rolling/cutting margin (if configured) = 2926.05 kg.
+  Step 4: Output Formulation
+          - Return structured JSON and markdown table containing intermediate steps, unit weights, 
+            and final tonnage.
+
+Output:
+  - Formatted breakdown table by bar diameter.
+  - Total Metric Tons.
+  - Standard reference: IS 1786 / IS 2502.
+
+================================================================================
+FLOW 3: BOQ ↔ DRAWING CROSS-CHECK & VARIANCE AUDITING FLOW
+================================================================================
+Purpose:
+  Audit tender BOQ quantities against actual quantities calculated from approved 
+  drawings to prevent cost overruns, identify claims, or flag tender under-measurements.
+
+Trigger:
+  Quantity Surveyor or PM initiates a cross-check audit for a bill section (e.g., Substructure Concrete).
+
+Execution Lifecycle:
+  Step 1: Ingest BOQ Line Items
+          - Extract Item Code, Description, Unit (m3, MT, m2), and Tender Quantity.
+  Step 2: Retrieve Schedule / Drawing Quantities
+          - Extract structural schedules for matching elements (footings, pedestals, grade beams).
+  Step 3: Deterministic Takeoff Calculation
+          - Calculate actual required quantity from approved drawings.
+  Step 4: Delta & Variance Calculation
+          - Delta = Drawing Quantity - BOQ Tender Quantity
+          - Variance % = (Delta / BOQ Tender Quantity) * 100
+  Step 5: Tolerance & Risk Assessment
+          - If Variance > +10%: Flag as High Financial Variance (Potential budget overrun/claim).
+          - If Variance < -10%: Flag as High Scope Reduction.
+          - If -5% <= Variance <= +5%: Flag as Within Normal Construction Tolerance.
+
+Output:
+  - Audit Summary Matrix (Item Description | BOQ Qty | Drawing Qty | Variance Delta | % Delta | Status).
+  - Non-accusatory commentary highlighting discrepancies for quantity surveyor verification.
+
+================================================================================
+FLOW 4: ELEMENT & SCHEDULE RAPID LOOKUP FLOW
+================================================================================
+Purpose:
+  Provide instant 2-second access to all geometry, reinforcement, and notes for any 
+  structural member, eliminating 20-minute manual drawing searches on site.
+
+Trigger:
+  Site engineer enters an element identifier (e.g., "C-12", "B-104", "F-4").
+
+Execution Lifecycle:
+  Step 1: Index Lookup
+          - Exact match against Element Registry in database.
+  Step 2: Associated Data Aggregation
+          - Pulls Member Size: 450 mm x 600 mm.
+          - Pulls Concrete Grade: M35.
+          - Pulls Clear Cover: 40 mm.
+          - Pulls Main Reinforcement: 8-T20 Fe500.
+          - Pulls Stirrups / Ties: T8 @ 150 mm c/c (2L).
+          - Pulls Applicable Levels: Foundation to Level 2.
+          - Pulls Relevant Drawing References & Grid Crossings (Grid 3 / B).
+  Step 3: Visual Schematic & Specification Card Render
+          - Compiles all details into an actionable "Element Specification Card" with 
+            elevation, cross-section detail, and lap notes.
+
+Output:
+  - Structured element card ready for on-site execution and bar bending inspection.
+
+================================================================================
+FLOW 5: REVISION & SPECIFICATION CONFLICT INTELLIGENCE FLOW
+================================================================================
+Purpose:
+  Detect and alert site teams of discrepancies between different drawing sets 
+  (e.g., Structural Drawing vs Bar Bending Schedule) or between drawing revisions 
+  (e.g., Rev 1 vs Rev 2) before rebar is cut and bent.
+
+Trigger:
+  Upload of a new drawing revision or scheduled automated document audit.
+
+Execution Lifecycle:
+  Step 1: Cross-Document Alignment
+          - Pair matching entities across documents (e.g., Column C-12 on DWG-STR-01 vs BBS-L01).
+  Step 2: Attribute-Level Diffing
+          - Compare dimensions, rebar diameter, spacing, grade of concrete, and cover.
+          - Example detected:
+            * Drawing STR-01 Rev 2: Stirrups T8 @ 150 mm c/c.
+            * BBS Schedule BBS-04: Stirrups T8 @ 200 mm c/c.
+  Step 3: Severity Categorization
+          - Critical / Structural Safety Clash: Bar diameter or spacing reduction.
+          - Moderate / Cost Clash: Over-specification or extra length.
+          - Low / Informational: Layer tag or drawing title change.
+  Step 4: Clash Advisory Generation
+          - Generates an actionable advisory without guessing which document is correct.
+          - Prompts engineer to seek written clarification before pouring.
+
+Output:
+  - Conflict Alert card with side-by-side comparison, snippet citations, and recommended action.
+
+================================================================================
+FLOW 6: DAILY PROGRESS REPORT (DPR) & SITE PROGRESS FLOW
+================================================================================
+Purpose:
+  Transform informal site messages, voice recordings, concrete slips, and WhatsApp 
+  updates into structured, contract-grade Daily Progress Reports.
+
+Trigger:
+  Site engineer sends a voice note, message, or photos at end of shift.
+  Example: "Poured 42 m3 of M30 in 2nd floor slab S2 today. 14 masons, 22 helpers. 
+  Rain delayed us for 2 hours in afternoon. 4 transit mixers unloaded, 1 rejected for slump."
+
+Execution Lifecycle:
+  Step 1: Transcription & Natural Language Extraction
+          - Transcribes audio (if voice note).
+          - Extracts entities:
+            * Activity: Concrete pour (Slab S2, Level 2).
+            * Quantity: 42 m3 (Grade M30).
+            * Manpower: 14 Masons, 22 Unskilled Helpers (Total 36).
+            * Weather / Stoppage: Rain delay (2 hours duration).
+            * Quality / Materials: 4 RMC trucks unloaded, 1 truck rejected (slump test failure).
+  Step 2: Consistency & Progress Reconciliation
+          - Updates cumulative progress for "2nd Floor Slab Concrete" against project schedule.
+          - Logs quality event: 1 RMC transit mixer rejected due to out-of-spec slump.
+  Step 3: DPR Document Assembly
+          - Formats into standardized, branded contractor DPR template.
+          - Exports to PDF / Excel and archives in daily site records.
+
+Output:
+  - Clean, standardized Daily Progress Report ready for sign-off by Project Manager and Consultant.
+
+================================================================================
+FLOW 7: SITE ISSUE & REQUEST FOR INFORMATION (RFI) ASSISTANT FLOW
+================================================================================
+Purpose:
+  Streamline the creation of formal Requests for Information (RFI) when on-site clashes, 
+  unforeseen obstructions, or drawing ambiguities arise.
+
+Trigger:
+  Site engineer logs a field conflict.
+  Example: "400mm HVAC duct collides with structural downstand beam B-104 on Grid 3-B."
+
+Execution Lifecycle:
+  Step 1: Issue Ingestion & Spatial Context Mapping
+          - Logs location: Level 1 ceiling, Grid Intersection 3-B.
+          - Identifies affected members: Downstand Beam B-104 (300 x 500 mm) & MEP HVAC Duct (400 mm dia).
+  Step 2: Retrieval of Applicable Drawings & Standards
+          - Retrieves Beam B-104 structural schedule and MEP services coordination drawing.
+          - Checks code constraints (e.g., IS 456 / ACI rules regarding sleeve penetrations in beams: 
+            permissible only in middle third of span, outside shear-critical zones).
+  Step 3: RFI Drafting
+          - Fills formal RFI template:
+            * Project Name & Location
+            * RFI Number (auto-incremented) & Date
+            * Drawing References (Architectural, Structural, MEP)
+            * Precise Description of Issue / Discrepancy
+            * Potential Impact (Schedule / Cost)
+            * Proposed Contractor Solutions:
+                Option A: Re-route 400mm duct beneath beam soffit (check clear headroom).
+                Option B: Request structural sleeve approval with engineered rebar trimmers.
+  Step 4: Review & Consultant Dispatch
+          - Displays draft RFI for Project Manager approval and export.
+
+Output:
+  - Formatted, professional RFI document (PDF) ready for immediate submission to structural consultant.
+
+--------------------------------------------------------------------------------
+4. DATA & SECURITY BEST PRACTICES
+--------------------------------------------------------------------------------
+- Version Control: Drawing revisions are strictly tracked; obsolete drawings are archived 
+  and watermarked "SUPERSEDED" to prevent accidental fabrication.
+- Reproducibility: Every quantitative calculation logs the exact formula, inputs, and 
+  execution timestamp.
+- Audit Trail: RAG answers retain source document hashes, page numbers, and bounding box coordinates.
+- On-Site Resilience: Offline caching capability allows lookups of downloaded element schedules 
+  even when site network connectivity is degraded.
+
+================================================================================
+END OF SPECIFICATION — AI SITE ENGINEER
+================================================================================
