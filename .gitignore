@@ -25,3 +25,6 @@ uploads/
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Local Project Progress & Notes (Not tracked in git)
+project.txt
